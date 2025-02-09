@@ -17,10 +17,10 @@ function Header() {
                 </nav>
             </div>
             <div className="flex gap-4">
-                <a href="/auth/login">
+                <a href="/login">
                     <Button variant="primary" size="lg">Log in</Button>
                 </a>
-                <a href="/auth/login">
+                <a href="/register">
                     <Button variant="outline" size="lg">Sign up</Button>
                 </a>
             </div>

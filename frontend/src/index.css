@@ -129,6 +129,9 @@
     h2 {
         @apply text-2xl font-semibold font-primary;
     }
+    h3 {
+        @apply text-xl font-medium font-primary;
+    }
     a, p, span {
         @apply text-base font-normal font-secondary;
     }

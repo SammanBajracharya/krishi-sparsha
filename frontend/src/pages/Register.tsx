@@ -4,61 +4,87 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import api from "@/api";
+import axios from "axios";
+
 import { CardWrapper } from "@/components/auth/card-wrapper";
 
-import { LoginSchema } from "@/schemas/index";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { RegisterSchema } from "@/schemas/index";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import api from "@/api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
     const navigate = useNavigate();
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
+            username: "",
             email: "",
             password: "",
         }
     });
 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        const validatedFields = LoginSchema.safeParse(values);
+    const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+        const validatedFields = RegisterSchema.safeParse(values);
         if (!validatedFields.success) {
             setError("Invalid Fields!");
             return;
         }
 
-        const { email, password } = validatedFields.data;
+        const { username, email, password } = validatedFields.data;
 
         startTransition(async () => {
-            await api.post("/api/token/", { email, password }).
-                then((res) => {
-                    localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                    localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                    setSuccess("Login successful!");
-                    navigate("/");
-                }).
-                catch((error) => {
-                    console.log(error);
-                    setError("An undexpected error occured!");
-                });
+            try {
+                await api.post("/api/user/register/", { username, email, password });
+                setSuccess("Register successful!");
+                navigate("/auth/login");
+            } catch (error: any) {
+                if (axios.isAxiosError(error)) {
+                    if (error.response) {
+                        const errorMessages = error.response.data;
+
+                        const formErrors: string[] = [];
+                        if (errorMessages.email) {
+                            formErrors.push(`${errorMessages.email.join(", ")}`);
+                        }
+                        if (errorMessages.username) {
+                            formErrors.push(`${errorMessages.username.join(", ")}`);
+                        }
+                        if (errorMessages.password) {
+                            formErrors.push(`${errorMessages.password.join(", ")}`);
+                        }
+
+                        setError(formErrors.join(" | "));
+                    } else {
+                        setError("No response from the server. Please check your network connection.");
+                    }
+                } else {
+                    setError("An unexpected error occurred.");
+                }
+            }
         });
     };
 
     return (
         <div className="w-screen px-4 py-16 flex items-center justify-center">
             <CardWrapper
-                headerLabel="Welcome back!"
-                footerLabel="Don't have an account!"
-                footerHref="/register"
+                headerLabel="Create an account"
+                footerLabel="Already have an account!"
+                footerHref="/auth/login"
             >
                 <Form {...form}>
                     <form
@@ -66,6 +92,24 @@ const Login = () => {
                         onSubmit={form.handleSubmit(onSubmit)}
                     >
                         <div className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="username"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Username</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="username"
+                                                {...field}
+                                                disabled={isPending}
+                                                placeholder="John Doe"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -111,7 +155,7 @@ const Login = () => {
                             size="lg"
                             className="w-full"
                         >
-                            Log in
+                            Sign up
                         </Button>
                     </form>
                 </Form>
@@ -120,4 +164,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
