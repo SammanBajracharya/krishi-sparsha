@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 
-interface ProductCardProps {
+interface ProductCardsProps {
     price: number | string;
     productName: string;
     buyButtonOnClick?: () => void;
@@ -12,7 +12,7 @@ export const ProductCards = ({
     productName,
     buyButtonOnClick,
     addToCardButtonOnClick,
-}: ProductCardProps) => {
+}: ProductCardsProps) => {
     return (
         <div className="flex flex-col">
             <img
@@ -21,11 +21,11 @@ export const ProductCards = ({
             />
             <p className="mt-2">Rs. {price} per kg</p>
             <p className="font-bold mb-2">{productName}</p>
-            <div className="flex items-center justify-between gap-x-2">
-                <Button variant="primary" size="lg" onClick={buyButtonOnClick}>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-2">
+                <Button variant="primary" size="lg" className="w-full px-0" onClick={buyButtonOnClick}>
                     Buy Now
                 </Button>
-                <Button variant="outline" size="lg" onClick={addToCardButtonOnClick}>
+                <Button variant="outline" size="lg" className="w-full px-0" onClick={addToCardButtonOnClick}>
                     Add To Cart
                 </Button>
             </div>

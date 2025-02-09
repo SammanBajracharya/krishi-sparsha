@@ -4,7 +4,11 @@ import logo from '../assets/krishi.svg'
 function Header() {
     return (
         <div className="flex justify-between items-center p-4 border-b-[1px] border-gray-400/40">
-            <div><img src={logo} alt="Logo" /></div>
+            <a className="hover:scale-105 transition-all">
+                <div>
+                    <img src={logo} alt="Logo" />
+                </div>
+            </a>
             <div className="flex">
                 <nav className="w-full flex gap-8 justify-between text-lg">
                     <ul><a href="/">Home</a></ul>

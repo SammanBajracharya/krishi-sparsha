@@ -2,13 +2,9 @@ import { Card, CardHeader, CardContent } from "../components/ui/card";
 import { Separator } from "../components/ui/separator";
 import { BusinessInfo } from "../components/BusinessInfo";
 import { ProductCards } from "../components/ProductCards";
+import { mockData } from "../mockData";
 
 const FindDealsPage = () => {
-    const mockData = [
-        { price: 35, productName: "Potato" },
-        { price: 35, productName: "Potato" },
-        { price: 35, productName: "Potato" },
-    ];
 
     const handleBuyButtonClick = (productName: string) => {
         console.log(`Buying ${productName}`);
@@ -19,7 +15,7 @@ const FindDealsPage = () => {
     };
 
     return (
-        <section className="max-w-5xl mx-auto px-20 py-10 space-y-8">
+        <section className="max-w-5xl mx-auto px-4 py-10 space-y-8">
             <div>
                 <h1>Find Deals</h1>
                 <p className="mt-2 text-gray-500">Find the best deals from the best businesses</p>
@@ -38,7 +34,7 @@ const FindDealsPage = () => {
                 </CardHeader>
                 <Separator />
                 <CardContent className="py-6">
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {mockData.map((data, index) => (
                             <ProductCards
                                 key={index}

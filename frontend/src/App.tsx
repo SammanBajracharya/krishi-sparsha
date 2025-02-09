@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import FindDealsPage from "./pages/FindDeals";
 import Header from "./components/Header";
-import Profile from "./components/Profile";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
     return (
@@ -21,7 +21,7 @@ function App() {
                 />
                 <Route
                     path="/profile"
-                    element={ <Profile /> }
+                    element={ <ProfilePage /> }
                 />
             </Routes>
         </BrowserRouter>

@@ -7,6 +7,7 @@ interface BusinessInfoProps {
     mobile: string | number;
     location: string | number;
     image: string;
+    isProfile?: boolean
 };
 
 export const BusinessInfo = ({
@@ -15,20 +16,25 @@ export const BusinessInfo = ({
     info,
     mobile,
     location,
-    image
+    image,
+    isProfile
 }: BusinessInfoProps) => {
     return (
-        <div className="flex gap-x-8">
+        <div className="flex flex-col md:flex-row gap-x-8">
             <img
                 src={image}
                 className="h-32 w-32 rounded-md object-cover"
                 alt="profile_image"
             />
-            <div className="max-w-lg">
+            <div className="max-w-lg mt-2">
                 <div className="flex flex-col gap-2 items-start lg:flex-row lg:items-center">
+                    { isProfile ? (
+                    <h2>{businessName}</h2>
+                    ) : (
                     <a href="#" className="hover:underline">
                         <h2>{businessName}</h2>
                     </a>
+                    ) }
                     <span className="text-gray-500">(Trusted by {trustedPer}% consumers)</span>
                 </div>
                 { info && (
