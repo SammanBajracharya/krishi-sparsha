@@ -1,13 +1,14 @@
+import Servicecard from '@/components/Servicecard'
 import img1 from '../assets/Vector.svg'
 import img2 from '../assets/material-symbols-light_handshake-sharp.svg'
 import img3 from '../assets/mdi_recycle.svg'
 import img4 from '../assets/solar_delivery-bold.svg'
-
+import { Button } from '@/components/ui/button'
 
 const Home = () => {
       return (
         <>
-        <div className='flex flex-col items-center gap-4'>
+        <div className='flex flex-col items-center gap-4 py-4'>
           <div className='flex flex-col gap-4 justify-center items-center ' >
           <h6 className="font-bold
          font-Manrope text-[25px] text-center p-3
@@ -42,18 +43,16 @@ const Home = () => {
           </div>
           
         </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-8 items-center w-full'>
           <h3 className="mt-8 text-center font-bold text-3xl">Our services</h3>
-        <div className="flex gap-6 bg-teal-300 ">
-          <div className='relative flex'>
-            <div className='absolute inset-0 bg-slate-500 opacity-70'></div>
-            <img src="https://picsum.photos/200/300" alt="img1" />
-            </div>
-          <div className='p-2'><img src="https://picsum.photos/200/300" alt="img2" /></div>
-          <div className='p-2'><img src="https://picsum.photos/200/300" alt="img3" /></div>
+        <div className="flex gap-6">
+          <Servicecard Title='First' info='lorem5'/>
+          <Servicecard Title='Second' info='lorem5'/>
+          <Servicecard Title='Third' info='lorem5'/>
         </div>
           </div>
-          <div><h3 className="text-center font-bold text-[20px]">Be part of the bright future</h3></div>
+          <div className='mt-12'>
+            <h3 className="text-center font-bold text-2xl">Be part of the bright future</h3></div>
         </div>
         </>
     
