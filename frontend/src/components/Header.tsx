@@ -10,6 +10,7 @@ function Header() {
                 <ul><a href="#">Home</a></ul>
                 <ul><a href="#">Marketplace</a></ul>
                 <ul><a href="#">Find Deals</a></ul>
+                <ul><a href="#">dsfds</a></ul>
             </nav>
         </div>
         <div className="flex gap-4">
