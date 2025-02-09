@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import ProfilePage from "@/pages/ProfilePage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import Marketplace from "./pages/Marketplace";
 
 function App() {
     return (
@@ -32,6 +33,10 @@ function App() {
                 <Route
                     path="/register"
                     element={ <Register /> }
+                />
+                <Route
+                    path="/marketplace"
+                    element={ <Marketplace /> }
                 />
             </Routes>
         </BrowserRouter>
