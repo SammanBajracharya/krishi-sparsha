@@ -51,12 +51,14 @@ const Register = () => {
             try {
                 await api.post("/api/user/register/", { username, email, password });
                 setSuccess("Register successful!");
-                navigate("/auth/login");
+                navigate("/login");
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
+                    // Check if the response contains field-specific errors (e.g., email)
                     if (error.response) {
                         const errorMessages = error.response.data;
 
+                        // Loop through errors and extract field-specific messages
                         const formErrors: string[] = [];
                         if (errorMessages.email) {
                             formErrors.push(`${errorMessages.email.join(", ")}`);
@@ -80,7 +82,7 @@ const Register = () => {
     };
 
     return (
-        <div className="w-screen px-4 py-16 flex items-center justify-center">
+        <div className="w-screen h-screen flex items-center justify-center">
             <CardWrapper
                 headerLabel="Create an account"
                 footerLabel="Already have an account!"

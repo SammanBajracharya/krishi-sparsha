@@ -8,14 +8,18 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem(ACCESS_TOKEN);
-        if (token) { config.headers.Authorization = `Bearer ${token}`; }
+
+        // Skip Authorization header for unauthenticated routes
+        if (!config.url.includes("/api/user/register") && token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
         return config;
     },
     (error) => {
         console.log(error);
         return Promise.reject(error);
-    },
+    }
 );
 
 export default api;
-
