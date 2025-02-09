@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardContent } from "../components/ui/card";
 import { Separator } from "../components/ui/separator";
 import { BusinessInfo } from "../components/BusinessInfo";
-import { ProductCards } from "../components/ProductCards";
+import { ProductCard } from "../components/ProductCard";
 import { mockData } from "../mockData";
 
 const FindDealsPage = () => {
@@ -36,7 +36,7 @@ const FindDealsPage = () => {
                 <CardContent className="py-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {mockData.map((data, index) => (
-                            <ProductCards
+                            <ProductCard
                                 key={index}
                                 price={data.price}
                                 productName={data.productName}

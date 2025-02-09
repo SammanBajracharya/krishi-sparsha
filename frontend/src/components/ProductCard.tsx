@@ -1,18 +1,18 @@
 import { Button } from "./ui/button";
 
-interface ProductCardsProps {
+interface ProductCardProps {
     price: number | string;
     productName: string;
     buyButtonOnClick?: () => void;
     addToCardButtonOnClick?: () => void;
 }
 
-export const ProductCards = ({
+export const ProductCard = ({
     price,
     productName,
     buyButtonOnClick,
     addToCardButtonOnClick,
-}: ProductCardsProps) => {
+}: ProductCardProps) => {
     return (
         <div className="flex flex-col">
             <img

@@ -1,7 +1,7 @@
-import { BusinessInfo } from "@/components/BusinessInfo"
-import { Profile } from "@/components/Profile"
+import { BusinessInfo } from "@/components/BusinessInfo";
+import { Profile } from "@/components/Profile";
 
-function Profile() {
+const ProfilePage = () => {
     return (
         <div className="p-6 shadow-lg flex flex-col gap-6">
             <BusinessInfo
@@ -21,4 +21,4 @@ function Profile() {
     )
 }
 
-export default Profile
+export default ProfilePage

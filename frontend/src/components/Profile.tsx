@@ -1,8 +1,7 @@
-import { Profile } from "@/components/Profile"
 import { mockData } from "@/mockData";
-import { ProductCards } from "@/components/ProductCards";
+import { ProductCard } from "@/components/ProductCard";
 
-function Profile() {
+export const Profile = () => {
     const handleBuyButtonClick = (productName: string) => {
         console.log(`Buying ${productName}`);
     };
@@ -24,7 +23,7 @@ function Profile() {
                 <div className="text-3xl font-semibold">Trending Products</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {mockData.map((data, index) => (
-                        <ProductCards
+                        <ProductCard
                             key={index}
                             price={data.price}
                             productName={data.productName}
@@ -37,5 +36,3 @@ function Profile() {
         </>
     )
 }
-
-export default Profile
