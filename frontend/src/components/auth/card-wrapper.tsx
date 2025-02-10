@@ -5,6 +5,7 @@ import {
     CardFooter,
 } from "@/components/ui/card";
 import { BackButton } from "@/components/auth/back-button";
+import { Separator } from "@/components/ui/separator";
 
 interface CardWrapperProps {
     children: React.ReactNode;
@@ -21,14 +22,16 @@ export const CardWrapper: React.FC<CardWrapperProps> = ({
 }) => {
     return (
         <Card className="max-w-96 mx-auto">
-            <CardHeader>
+            <CardHeader className="pt-6 pb-4">
                 <h3>
                     { headerLabel }
                 </h3>
             </CardHeader>
-            <CardContent>
+            <Separator />
+            <CardContent className="pt-4">
                 { children }
             </CardContent>
+            <Separator />
             <CardFooter>
                 <BackButton
                     label={footerLabel}

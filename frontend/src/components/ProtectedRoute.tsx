@@ -1,62 +1,28 @@
-import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import { jwtDecode } from "jwt-decode";
-import api from "../api";
-import { LOGIN_PATH } from "@/routes";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
 
-const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+interface ProtectedRouteProps {
+    children: React.ReactNode;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+    const { isLoggedIn, userData, fetchUserData } = useAuth();
 
     useEffect(() => {
-        auth().
-            catch(() => setIsAuthenticated(false));
+        fetchUserData().catch((error) => {
+            console.error("Failed to fetch user data:", error);
+        });
     }, []);
 
-    const refreshToken = async () => {
-        const token = localStorage.getItem(REFRESH_TOKEN);
-        try {
-            const res = await api.post("/api/token/refresh/", {
-                refresh: token,
-            });
+    if (!isLoggedIn) { return children; }
 
-            if (res.status === 200) {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                setIsAuthenticated(true);
-            } else {
-                setIsAuthenticated(false);
-            }
-        } catch (error) {
-            console.log(error);
-            setIsAuthenticated(false);
-        }
+    if (!userData) {
+        return;
     }
 
-    const auth = async () => {
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        if (!token) {
-            setIsAuthenticated(false);
-            return;
-        }
-
-        const decoded = jwtDecode(token);
-        const expirationDate = decoded.exp as number;
-        const now = Date.now() / 1000;
-
-        if (expirationDate < now) { await refreshToken(); }
-        else { setIsAuthenticated(true); }
-    }
-
-    if (isAuthenticated == null) {
-        return (
-            <div className="h-screen w-screen flex flex-col items-center justify-center gap-y-4">
-                <div className="w-8 h-8 animate-spin" />
-                Loading...
-            </div>
-        );
-    }
-
-    return isAuthenticated ? children : <Navigate to={LOGIN_PATH} />;
-}
+    if (userData.user_type === "farmer") { return <Navigate to={`/dashboard/${userData.id}`} />; }
+    else { return <Navigate to="/marketplace" />; }
+};
 
 export default ProtectedRoute;

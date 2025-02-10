@@ -9,13 +9,15 @@ import { UserSchema } from "@/schemas";
 
 interface AuthContextType {
     isLoggedIn: boolean;
-    login: (email: string, password: string) => void;
+    isLoading: boolean;
+    login: (
+        email: string,
+        password: string,
+        setError: (values: string) => void,
+        setSuccess: (values: string) => void,
+    ) => void;
     logout: () => void;
-    error?: string;
-    setError?: (values: string) => void;
-    success?: string;
-    resetMessages: () => void;
-    fetchUserData: () => z.infer<typeof UserSchema> | null;
+    fetchUserData: () => Promise<z.infer<typeof UserSchema> | null>;
     userData: z.infer<typeof UserSchema> | null;
 }
 
@@ -23,17 +25,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem(ACCESS_TOKEN) !== null);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState<z.infer<typeof UserSchema> | null>(null);
     const navigate = useNavigate();
 
-    const resetMessages = () => {
-        setError('');
-        setSuccess('');
-    }
-
     const fetchUserData = async () => {
+        setIsLoading(true);
         try {
             const res = await api.get("/api/user/profile/");
             setUserData(res.data);
@@ -41,19 +38,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         } catch (error) {
             console.error(error);
             return null;
+        } finally {
+            setIsLoading(false);
         }
     }
 
-    const login = async (email: string, password: string) => {
-        resetMessages();
+    const login = async (
+        email: string,
+        password: string,
+        setError: (values: string) => void,
+        setSuccess: (values: string) => void,
+    ) => {
         try {
             const res = await api.post("/api/token/", { email, password });
             localStorage.setItem(ACCESS_TOKEN, res.data.access);
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             await fetchUserData();
+            if (!userData) {
+                throw new Error("An unexpected error occurred! Please try again.");
+            }
             setIsLoggedIn(true);
             setSuccess("Login successful!");
-            navigate("/marketplace");
+            if (userData.user_type.toLowerCase() === "farmer") {
+                console.log(userData);
+                navigate(`/dashboard/${userData.id}/`);
+            } else {
+                navigate("/marketplace");
+            }
         } catch (error) {
             console.error(error);
             setError("An unexpected error occurred! Please try again.");
@@ -61,13 +72,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const logout = () => {
-        localStorage.clear();
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
         setIsLoggedIn(false);
         navigate("/login");
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout, error, success, setError, resetMessages, userData, fetchUserData }}>
+        <AuthContext.Provider value={{ isLoggedIn, isLoading, login, logout, userData, fetchUserData }}>
             {children}
         </AuthContext.Provider>
     );

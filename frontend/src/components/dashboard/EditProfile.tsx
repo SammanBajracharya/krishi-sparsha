@@ -1,54 +1,42 @@
-import * as z from "zod";
-
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { CardWrapper } from "@/components/auth/card-wrapper";
-
-import { LoginSchema } from "@/schemas/index";
+import * as z from "zod";
+import { UserSchema } from "@/schemas";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { useAuth } from "@/context/AuthContext";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const Login = () => {
+interface EditProfileProps {
+    user: z.infer<typeof UserSchema>;
+}
+
+const EditProfile = ({ user }: EditProfileProps) => {
+    const [error, setError] = useState<string | null>("");
+    const [success, setSuccess] = useState<string | null>("");
     const [isPending, startTransition] = useTransition();
-    const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
-    const { login } = useAuth();
 
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof UserSchema>>({
+        resolver: zodResolver(UserSchema),
         defaultValues: {
             email: "",
+            username: "",
             password: "",
+            description: "",
+            phone: "",
+            address: "",
         }
     });
 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        const validatedFields = LoginSchema.safeParse(values);
-        if (!validatedFields.success) {
-            setError("Invalid Fields!");
-            return null;
-        }
-
-        const { email, password } = validatedFields.data;
-
-        startTransition(async () => {
-            login(email, password, setError, setSuccess);
-        });
-    };
+    const onSubmit = (value: z.infer<typeof UserSchema>) => {
+        console.log(value);
+    }
 
     return (
-        <div className="w-screen px-4 py-16">
-            <CardWrapper
-                headerLabel="Welcome back!"
-                footerLabel="Don't have an account!"
-                footerHref="/register"
-            >
+        <>
                 <Form {...form}>
                     <form
                         className="space-y-6"
@@ -65,7 +53,7 @@ const Login = () => {
                                             <Input
                                                 type="email"
                                                 {...field}
-                                                disabled={isPending}
+                                                disabled={true}
                                                 placeholder="john.doe@domail.com"
                                             />
                                         </FormControl>
@@ -75,16 +63,34 @@ const Login = () => {
                             />
                             <FormField
                                 control={form.control}
-                                name="password"
+                                name="username"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Username</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="text"
+                                                {...field}
+                                                disabled={isPending}
+                                                placeholder="John Doe"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="description"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
                                             <Input
-                                                type="password"
+                                                type="text-area"
                                                 {...field}
                                                 disabled={isPending}
-                                                placeholder="******"
+                                                placeholder="My name is John Doe..."
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -92,21 +98,20 @@ const Login = () => {
                                 )}
                             />
                         </div>
-                        <FormError message={error} />
-                        <FormSuccess message={success} />
+                        <FormError message={error as string} />
+                        <FormSuccess message={success as string} />
                         <Button
                             disabled={isPending}
                             variant="default"
                             size="lg"
                             className="w-full"
                         >
-                            Log in
+                            Update
                         </Button>
                     </form>
                 </Form>
-            </CardWrapper>
-        </div>
+        </>
     );
 };
 
-export default Login;
+export default EditProfile;

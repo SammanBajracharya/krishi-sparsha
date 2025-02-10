@@ -25,7 +25,7 @@ export const RegisterSchema = z.object({
     password: z.string().min(6, {
         message: "Minimum 6 characters required.",
     }),
-    user_type: z.enum(["consumer", "farmer", "business"], {
+    user_type: z.enum(["consumer", "farmer"], {
         errorMap: () => ({ message: "User Type is required." }),
     }),
     address: z.string().min(1, {
@@ -55,6 +55,9 @@ export const UserSchema = z.object({
     username: z.string().min(1, {
         message: "Username is required."
     }),
+    description: z.string().min(20, {
+        message: "Description is required."
+    }).optional(),
     user_type: UserTypeEnum,
     address: z.string().min(1, {
         message: "Address is required.",
@@ -63,8 +66,23 @@ export const UserSchema = z.object({
         message: "Phone is required.",
     }),
     image: z.string().optional(),
-    rating: z.number().optional(),
     discountCard: DiscountCardSchema.optional(),
+}).superRefine((data, ctx) => {
+    if (data.email !== undefined) {
+        ctx.addIssue({
+            path: ["email"],
+            message: "Email cannot be changed.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
+
+    if (data.user_type === "farmer" && !data.description) {
+        ctx.addIssue({
+            path: ["description"],
+            message: "Description is required for farmers.",
+            code: z.ZodIssueCode.custom,
+        });
+    }
 });
 
 export const CategorySchema = z.enum(["seeds", "fruits", "vegetables", "flowers", "dairy"]);

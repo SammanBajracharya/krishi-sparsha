@@ -36,22 +36,7 @@ const generateMockProduct = () => {
     });
 };
 
-export const generateMockUser = () => {
-    return UserSchema.parse({
-        id: uuidv4(),
-        email: `user${Math.floor(Math.random() * 10000)}@example.com`,
-        username: `user${Math.floor(Math.random() * 10000)}`,
-        user_type: UserTypeEnum.options[Math.floor(Math.random() * UserTypeEnum.options.length)],
-        address: `Address ${Math.floor(Math.random() * 100)}`,
-        phone: `+123456789${Math.floor(Math.random() * 1000)}`,
-        city: `City ${Math.floor(Math.random() * 100)}`,
-        image: faker.image.url(),
-        rating: faker.number.int({min: 70, max: 100}),
-    });
-}
-
 export const mockProducts = Array.from({ length: 10 }, generateMockProduct);
-export const randonMockUsers = Array.from({ length: 20 }, generateMockUser);
 
 export const mockUsers = [
     {

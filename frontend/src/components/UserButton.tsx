@@ -1,5 +1,4 @@
-import * as z from "zod";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -10,20 +9,28 @@ import {
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/AuthContext';
-import { UserSchema } from '@/schemas';
+import { Loader } from "lucide-react";
 
 export const UserButton = () => {
-    const [userData, setUserData] = useState<z.infer<typeof UserSchema> | null>(null);
-    const { logout, fetchUserData } = useAuth();
+    const { userData, isLoading, logout, fetchUserData } = useAuth();
 
     useEffect(() => {
-        fetchUserData()?.
-            then((data: z.infer<typeof UserSchema>) => {
-                setUserData(data);
-            });
+        fetchUserData().catch((error) => {
+            console.error("Failed to fetch user data:", error);
+        });
     }, []);
 
-    if (!userData) { return null; }
+    if (isLoading) {
+        return (
+            <div className="flex justify-end">
+                <Loader />;
+            </div>
+        );
+    }
+
+    if (!userData) {
+        return null;
+    }
 
     return (
         <div className="cursor-pointer flex justify-end">
@@ -37,7 +44,10 @@ export const UserButton = () => {
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuGroup>
                         <a href={`/profile/${userData.id}`}>
-                            <DropdownMenuItem>{ userData.username }</DropdownMenuItem>
+                            <DropdownMenuItem>{userData.username}</DropdownMenuItem>
+                        </a>
+                        <a href={`/dashboard/${userData.id}`}>
+                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
                         </a>
                     </DropdownMenuGroup>
                     <DropdownMenuGroup>

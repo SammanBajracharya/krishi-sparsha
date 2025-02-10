@@ -1,51 +1,134 @@
-import { BusinessInfo } from "@/components/BusinessInfo"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import  Analytics  from "@/components/Analytics"
+import  Analytics  from "@/components/dashboard/Analytics"
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 
-function Dashboard() {
-  
-  return (
-    <>
-    <div className="p-6 shadow-lg flex flex-col gap-6 bg-white">
-                <BusinessInfo
-                    id={userId as string}
-                    image={userData.image as string}
-                    businessName={userData.username}
-                    mobile={userData.phone as string}
-                    location={userData.address as string}
-                    rating={userData.rating}
-                    isProfile
-                    isLoggedIn={isLoggedIn}
-                />
-    <div className="p-4 rounded-lg flex flex-col gap-8">
-      <div className="flex flex-col gap-6">
-      <div className="text-3xl font-semibold">Hello,User </div>
-      <div className="flex gap-4">
-        <Button variant={"primary"}>Sell Products</Button>
-        <Button variant={"secondary"}>Review Old Sales</Button>
-      </div>
-    </div>
-    <Separator/>
-    <div className="flex flex-col gap-4">
-      <div className="text-2xl font-semibold">Your Todos</div>
-      <div><input className="bg-neutral-100 outline-gray-400/50 px-4 py-2 w-full" placeholder="Enter your todos here" type="text" name="" id="" /></div>
-      <div className="flex flex-wrap gap-2">
-        <p className="bg-neutral-100 p-[12px] rounded-md">Sell More Products</p>
-        <p className="bg-neutral-100 p-[12px] rounded-md">Talk with Bla Bla BLa</p>
-        </div>
-    </div>
-    <Separator/>
-    <div className="flex flex-col gap-6">
-      <div className="text-4xl font-bold">Your Analytics</div>
-      <div className="">
-    <Analytics/>
-      </div>
-    </div>
-    </div>
-    </div>
-   </>
-  )
+import LoadingState from "@/components/loading-state";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { ChartSpline, ListTodo, LucideIcon, SquareChartGantt, UserPen } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+import EditProfile from "@/components/dashboard/EditProfile";
+
+type DashboardState = "edit" | "review" | "analytics" | "todos";
+
+interface DashboardSidebarProps {
+    state: DashboardState;
+    Icon: LucideIcon;
+    label: string;
 }
 
-export default Dashboard
+const DashboardSidebar: Array<DashboardSidebarProps> = [
+    {
+        state: "edit",
+        Icon: UserPen,
+        label: "Edit Profile"
+    },
+    {
+        state: "review",
+        Icon: SquareChartGantt,
+        label: "Review"
+    },
+    {
+        state: "todos",
+        Icon: ListTodo,
+        label: "Todos"
+    },
+    {
+        state: "analytics",
+        Icon: ChartSpline,
+        label: "Analytics"
+    },
+];
+
+function Dashboard() {
+    const [ currentState, setCurrentState ] = useState<DashboardState>("edit");
+    const { userData, fetchUserData, isLoggedIn, logout } = useAuth();
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    const handleSidebarClick = (state: DashboardState) => {
+        setCurrentState(state);
+    }
+
+    if (!isLoggedIn) {
+        logout();
+        return null;
+    }
+
+    if (!userData)
+        return (
+            <LoadingState message="Loading your dashboard..." />
+        );
+
+    return (
+        <section className="px-8 py-12 shadow-lg flex flex-col gap-6">
+            <Card>
+                <CardHeader className="space-y-5 pt-10">
+                    <h1>Welcome, <span className="underline text-4xl font-semibold text-primary">{userData.username}</span></h1>
+                    <div className="flex flex-items gap-x-2">
+                        <Button variant="primary" size="lg">Sell Products</Button>
+                        <Button variant="outline" size="lg">Renew Old Sales</Button>
+                    </div>
+                </CardHeader>
+                <Separator />
+                <CardContent className="py-12">
+                    <div className="flex gap-x-6">
+                        <aside className="w-3/12 flex flex-col gap-y-1">
+                            { DashboardSidebar.map((sidebar, index) => (
+                                <Button
+                                    key={`${sidebar.label}_${index}`}
+                                    className={
+                                        cn("flex items-center justify-start gap-x-3",
+                                            sidebar.state === currentState && "bg-accent"
+                                        )}
+                                    onClick={() => handleSidebarClick(sidebar.state)}
+                                    variant="ghost"
+                                >
+                                    <sidebar.Icon />
+                                    <span>{ sidebar.label }</span>
+                                </Button>
+                            ))}
+                        </aside>
+                        <div className="w-9/12 flex flex-col gap-6">
+                            {(() => {
+                                switch (currentState) {
+                                    case "edit":
+                                        return ( <EditProfile user={userData} /> );
+                                    case "review":
+                                        return (
+                                            <div>
+                                                <h1>Your Reviews</h1>
+                                                <p>Here you can review your sales and purchases.</p>
+                                            </div>
+                                        );
+                                    case "todos":
+                                        return (
+                                            <div>
+                                                <h1>Your Todos</h1>
+                                                <p>Here you can manage your todos.</p>
+                                            </div>
+                                        );
+                                    case "analytics":
+                                        return (
+                                            <div>
+                                                <h1>Your Analytics</h1>
+                                                <Analytics />
+                                            </div>
+                                        );
+                                    default:
+                                        return null;
+                                }
+                            })()}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </section>
+    )
+}
+
+export default Dashboard;

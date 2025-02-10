@@ -16,6 +16,9 @@ const ProfilePage = () => {
         return;
     }
 
+    const isProfile = userId === userData.id;
+
+
     console.log(userData);
 
     return (
@@ -27,7 +30,7 @@ const ProfilePage = () => {
                 mobile={userData.phone as string}
                 location={userData.address as string}
                 rating={userData.rating}
-                isProfile
+                isProfile={isProfile}
                 isLoggedIn={isLoggedIn}
             />
             <Profile />

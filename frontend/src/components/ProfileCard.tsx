@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardContent } from "../components/ui/card";
 import { BusinessInfo } from "./BusinessInfo";
 import { ProductSchema, UserSchema } from "../schemas/index";

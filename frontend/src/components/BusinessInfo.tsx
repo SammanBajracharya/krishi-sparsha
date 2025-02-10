@@ -8,20 +8,19 @@ interface BusinessInfoProps {
     mobile: string | number;
     location: string | number;
     image: string;
+    isChild?: boolean;
     isProfile?: boolean;
-    isLoggedIn?: boolean;
 };
 
 export const BusinessInfo = ({
     id,
     businessName,
-    rating,
     info,
     mobile,
     location,
     image,
+    isChild,
     isProfile,
-    isLoggedIn,
 }: BusinessInfoProps) => {
     return (
         <div className="flex flex-col md:flex-row gap-x-8">
@@ -32,16 +31,13 @@ export const BusinessInfo = ({
             />
             <div className="flex flex-col gap-y-4 max-w-lg mt-2">
                 <div className="flex flex-col gap-2 items-start lg:flex-row lg:items-center">
-                    { isProfile ? (
-                    <h2>{businessName}</h2>
+                    { isChild ? (
+                        <a href={`/profile/${id}`} className="hover:underline">
+                            <h2>{businessName}</h2>
+                        </a>
                     ) : (
-                    <a href={`/profile/${id}`} className="hover:underline">
                         <h2>{businessName}</h2>
-                    </a>
                     ) }
-                    { !!rating && (
-                        <span className="text-gray-500">(Trusted by {rating}% consumers)</span>
-                    )}
                 </div>
                 { info && (
                     <p className="text-sm">
@@ -58,7 +54,7 @@ export const BusinessInfo = ({
                         <a>{location}</a>
                     </div>
                 </div>
-                {isLoggedIn && (
+                {isProfile && !isChild && (
                     <a className="text-blue-700" href="/dashboard">Dashboard Page</a>
                 )}
             </div>

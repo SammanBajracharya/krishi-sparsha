@@ -10,7 +10,7 @@ import Accordioncard from '@/components/Accordioncard';
 const Home = () => {
     return (
         <>
-            <main className="py-8">
+            <main className="py-12">
                 <section className='max-w-screen mx-auto px-8'>
                     <div className='mx-auto mb-8 flex flex-col gap-8 justify-center items-center text-center max-w-2xl'>
                         <h1>krishi-स्पर्श seeks to find new way farmer can sustain their business</h1>
