@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
         user_type,
         address,
         phone,
-        city,
+        image=None,
         **extra_fields
     ):
         if not email:
@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
             user_type=user_type,
             address=address,
             phone=phone,
-            city=city,
+            image=image,
             **extra_fields
         )
         user.set_password(password)
@@ -45,7 +45,7 @@ class UserManager(BaseUserManager):
         user_type="admin",
         address="",
         phone="",
-        city="",
+        image=None,
     ):
         user = self.create_user(
             email=email,
@@ -54,7 +54,7 @@ class UserManager(BaseUserManager):
             user_type=user_type,
             address=address,
             phone=phone,
-            city=city,
+            image=image,
         )
         user.is_staff = True
         user.is_superuser = True
@@ -73,7 +73,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     user_type = models.CharField(
         max_length=20,
         choices=user_type_choices,
-        default="consumer"
+        default="consumer",
+        blank=False
     )
     email = models.EmailField(unique=True)
     username = models.CharField(
@@ -84,34 +85,34 @@ class User(AbstractBaseUser, PermissionsMixin):
     address = models.CharField(
         max_length=300,
         null=True,
-        blank=True
+        blank=False
     )
     phone = models.CharField(
         max_length=20,
         null=True,
-        blank=True
+        blank=False
     )
-    city = models.CharField(
-        max_length=100,
+    image = models.FileField(
+        upload_to='static/uploads',
         null=True,
         blank=True
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["username", "user_type", "address", "phone", "address"]
     objects = UserManager()
 
     def __str__(self):
         return self.username
 
     def is_farmer(self):
-        return self.user_type == 'farmer'
+        return self.user_type == "farmer"
 
     def is_consumer(self):
-        return self.user_type == 'consumer'
+        return self.user_type == "consumer"
 
     def is_business(self):
-        return self.user_type == 'business'
+        return self.user_type == "business"
 
 
 # Product Model
@@ -121,23 +122,22 @@ class Category(models.TextChoices):
     VEGETABLES = 'VEGETABLES', 'Vegetables'
     FLOWER = 'FLOWER', 'Flower'
     DAIRY = 'DAIRY', 'Eggs and Milk'
+    OTHER = 'OTHER', 'Other'
 
     def str(self) -> str:
         return self.name
 
 
 class Product(models.Model):
-    p_category = models.CharField(max_length=20, choices=Category.choices)
+    product_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.CharField(max_length=20, choices=Category.choices)
     name = models.CharField(max_length=300)
-    trending = models.BooleanField(default=False, null=True)
-    discounts = models.BooleanField(default=False, null=True)
     image = models.FileField(upload_to='static/uploads', null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    p_quantity = models.IntegerField()
-    p_rate = models.DecimalField(max_digits=5, decimal_places=2)
-    p_sale = models.DecimalField(max_digits=10, decimal_places=0)
+    quantity = models.IntegerField()
+    sales_number = models.IntegerField(default=0)
     description = models.CharField(max_length=1000, null=True, blank=True)
-    p_created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def str(self):
         return self.name
@@ -146,18 +146,24 @@ class Product(models.Model):
 # Order Model
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def str(self):
         return f"{self.user.username} - {self.product.p_name}"
 
 
 class Order(models.Model):
-    PAYMENT_CHOICES = [
+    payment_choices = [
         ('cash on delivery', 'cash on delivery'),
         ('esewa', 'esewa'),
         ('khalti', 'khalti')
     ]
+    payment_type = models.CharField(
+        max_length=50,
+        choices=payment_choices,
+        default="cash on delivery",
+        blank=False
+    )
     order_id = models.UUIDField(
         primary_key=True,
         default=uuid4,

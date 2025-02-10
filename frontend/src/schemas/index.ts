@@ -60,7 +60,7 @@ export const CategorySchema = z.enum(["seeds", "fruits", "vegetables", "flowers"
 
 export const ProductSchema = z.object({
     id: UUIDSchema.default(uuidv4),
-    title: z.string().min(1, {
+    name: z.string().min(1, {
         message: "Title is required."
     }),
     description: z.string().min(1, {
@@ -74,6 +74,10 @@ export const ProductSchema = z.object({
     }),
     salesNumber: z.number().default(0),
     category: CategorySchema,
+    quantity: z.number().min(1, {
+        message: "Quantity is required."
+    }),
+    product_owner: UUIDSchema,
 });
 
 export const PaymentMethodSchema = z.enum(["cash on delivery", "esewa", "khalti"]);
