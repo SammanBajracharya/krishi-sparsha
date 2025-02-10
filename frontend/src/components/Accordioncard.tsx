@@ -16,16 +16,27 @@ function Accordioncard() {
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
-      <AccordionTrigger>Is it styled?</AccordionTrigger>
+      <AccordionTrigger> How does Krishi work?  </AccordionTrigger>
       <AccordionContent>
-        Yes. It comes with default styles that matches the other
-        components&apos; aesthetic.
+      Krishi connects farmers directly with consumers, cutting out middlemen and ensuring fair prices for both parties.  
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-3">
-      <AccordionTrigger>Is it animated?</AccordionTrigger>
+      <AccordionTrigger>How do farmers join the platform?  </AccordionTrigger>
       <AccordionContent>
-        Yes. It's animated by default, but you can disable it if you prefer.
+      Farmers can register on Krishi, create a profile, and start listing their available crops.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-4">
+      <AccordionTrigger> Is home delivery available?  </AccordionTrigger>
+      <AccordionContent>
+      Yes! Consumers can choose home delivery or farm pick-up based on their location and preference.  
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-5">
+      <AccordionTrigger> How does Krishi help reduce food wastage?  </AccordionTrigger>
+      <AccordionContent>
+      Farmers get real-time demand insights, preventing overproduction and waste. Plus, unsold items can be redistributed locally.  
       </AccordionContent>
     </AccordionItem>
   </Accordion>
