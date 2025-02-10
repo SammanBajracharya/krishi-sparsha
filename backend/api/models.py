@@ -36,6 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=25, blank=False, default="default_username")
     image = models.FileField(upload_to='static/uploads', null=True, blank=True)
 
+    # ✅ Required fields for authentication and admin access
     is_staff = models.BooleanField(default=False)  # Allows access to the admin site
     is_superuser = models.BooleanField(default=False)  # Grants full admin rights
     is_active = models.BooleanField(default=True)  # Required for authentication
