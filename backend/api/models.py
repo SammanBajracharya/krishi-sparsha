@@ -1,74 +1,164 @@
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from uuid import uuid4
 from backend import settings
+from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
+from uuid import uuid4
 
 
-# User Manager
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, username="", **extra_fields):
-        if not email:
-            raise ValueError("Email is required")
-
-        email = self.normalize_email(email)
-        user = self.model(email=email, username=username, **extra_fields)
-        user.set_password(password)
-        user.is_active = True
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password, username):
-        """Creates and returns a superuser with only necessary fields."""
-        user = self.create_user(email=email, password=password, username=username)
-        user.is_staff = True
-        user.is_superuser = True
-        user.is_active = True
-        user.save(using=self._db)
-        return user
-
-
-# User Model
-class User(AbstractBaseUser, PermissionsMixin):
-    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=25, blank=False, default="default_username")
-    image = models.FileField(upload_to='static/uploads', null=True, blank=True)
-
-    # ✅ Required fields for authentication and admin access
-    is_staff = models.BooleanField(default=False)  # Allows access to the admin site
-    is_superuser = models.BooleanField(default=False)  # Grants full admin rights
-    is_active = models.BooleanField(default=True)  # Required for authentication
-
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
-
-    objects = UserManager()
-
-    def str(self):
-        return self.username
-
-
-# Todo Model
+# Create your models here.
 class Todo(models.Model):
     title = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todos")
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="todos"
+    )
 
-    def str(self):
+    def __str__(self):
         return self.title
 
 
-# Discount Card Model
+class UserManager(BaseUserManager):
+    def create_user(
+        self,
+        email,
+        password,
+        username,
+        user_type,
+        address,
+        phone,
+        description=None,
+        discount_cards=None,
+        image=None,
+        **extra_fields
+    ):
+        if not email:
+            raise ValueError("Email is required")
+
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+            user_type=user_type,
+            description=description,
+            address=address,
+            phone=phone,
+            image=image,
+            discount_cards=discount_cards,
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(
+        self,
+        email,
+        password,
+        username,
+        description="",
+        user_type="consumer",
+        address="",
+        phone="",
+        image=None,
+        discount_cards=None,
+    ):
+        user = self.create_user(
+            email=email,
+            username=username,
+            password=password,
+            user_type=user_type,
+            description=description,
+            address=address,
+            phone=phone,
+            image=image,
+            discount_cards=discount_cards,
+        )
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return user
+
+
 class DiscountCard(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     code = models.CharField(max_length=5)
     discount = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
+    def __str__(self):
         return self.code
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # Choices for user types (farmer, consumer, business)
+    USER_TYPE_CHOICES = [
+        ('farmer', 'Farmer'),
+        ('consumer', 'Consumer'),
+    ]
+
+    user_type = models.CharField(
+        max_length=20,
+        choices=USER_TYPE_CHOICES,
+        default="consumer",
+        blank=False
+    )
+
+    email = models.EmailField(unique=True)
+    username = models.CharField(
+        max_length=25,
+        blank=False,
+        default="default_username"
+    )
+    address = models.CharField(
+        max_length=50,
+        null=True,
+        blank=False
+    )
+    description = models.CharField(
+        max_length=144,
+        null=True,
+        blank=True
+    )
+    phone = models.CharField(
+        max_length=20,
+        null=True,
+        blank=False
+    )
+    image = models.FileField(
+        upload_to='static/uploads',
+        null=True,
+        blank=True,
+    )
+    discount_cards = models.ForeignKey(
+        DiscountCard,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username", "user_type", "address", "phone"]
+
+    objects = UserManager()
+
+    def __str__(self):
+        return self.username
+
+    def is_farmer(self):
+        return self.user_type == "farmer"
+
+    def is_consumer(self):
+        return self.user_type == "consumer"
+
+    def is_business(self):
+        return self.user_type == "business"
 
 
 # Product Model
@@ -100,29 +190,42 @@ class Product(models.Model):
         return self.name
 
 
-# Cart Model
+# Order Model
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def str(self):
-        return f"{self.user.username} - {self.products.name}"
+        return f"{self.user.username} - {self.product.p_name}"
 
 
-# Order Model
 class Order(models.Model):
-    PAYMENT_CHOICES = [
-        ('cash on delivery', 'Cash on Delivery'),
-        ('esewa', 'Esewa'),
-        ('khalti', 'Khalti')
+    payment_choices = [
+        ('cash on delivery', 'cash on delivery'),
+        ('esewa', 'esewa'),
+        ('khalti', 'khalti')
     ]
-    order_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    payment_type = models.CharField(
+        max_length=50,
+        choices=payment_choices,
+        default="cash on delivery",
+        blank=False
+    )
+    order_id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    total_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True
+    )
     order_date = models.DateTimeField(auto_now_add=True)
-    payment_type = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default="cash on delivery")
 
     def save(self, *args, **kwargs):
         self.total_price = self.product.price * self.quantity
