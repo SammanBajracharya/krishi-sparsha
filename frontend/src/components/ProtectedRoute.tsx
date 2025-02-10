@@ -15,14 +15,21 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
         });
     }, []);
 
-    if (!isLoggedIn) { return children; }
-
-    if (!userData) {
-        return;
+    if (!isLoggedIn) {
+        return <Navigate to="/login" />;
     }
 
-    if (userData.user_type === "farmer") { return <Navigate to={`/dashboard/${userData.id}`} />; }
-    else { return <Navigate to="/marketplace" />; }
+    if (!userData) {
+        return null;
+    }
+
+    if (userData.user_type !== "farmer") {
+        return <Navigate to={`/dashboard/${userData.id}`} />;
+    } else {
+        return <Navigate to="/marketplace" />;
+    }
+
+    return <>{children};</>; // Render the protected route's children
 };
 
 export default ProtectedRoute;

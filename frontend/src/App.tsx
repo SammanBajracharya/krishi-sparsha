@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import Home from "@/pages/Home";
@@ -15,74 +16,41 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CartProvider } from '@/context/CartContext';
 import Checkout from "@/pages/Checkout";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
+import JWTProvider from '@/components/AuthMiddleware';
 
 function App() {
     return (
-        <>
-            <CartProvider>
-                <BrowserRouter>
-                    <AuthProvider>
+        <CartProvider>
+            <BrowserRouter>
+                <AuthProvider>
+                    <JWTProvider>
                         <Header />
                         <Routes>
-                            <Route
-                                path="/"
-                                element={
-                                    <Home />
-                                }
-                            />
-                            <Route
-                                path="/find-deals"
-                                element={ <FindDealsPage /> }
-                            />
-                            <Route
-                                path="/profile/:userId"
-                                element={ <ProfilePage /> }
-                            />
-                            <Route
-                                path="/marketplace"
-                                element={ <Marketplace /> }
-                            />
-                            <Route
-                                path="/login"
-                                element={
-                                    <ProtectedRoute>
-                                        <Login />
-                                    </ProtectedRoute>
-                                }
-                            />
-                            <Route
-                                path="/register"
-                                element={
-                                    <ProtectedRoute>
-                                        <Register />
-                                    </ProtectedRoute>
-                                }
-                            />
-                            <Route
-                                path="/terms-of-service"
-                                element={ <Tos /> }
-                            />
+                            <Route path="/" element={<Home />} />
+                            <Route path="/find-deals" element={<FindDealsPage />} />
+                            <Route path="/profile/:userId" element={<ProfilePage />} />
+                            <Route path="/marketplace" element={<Marketplace />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/terms-of-service" element={<Tos />} />
                             <Route
                                 path="/dashboard/:userId"
                                 element={
-                                    <Dashboard />
+                                    <ProtectedRoute>
+                                        <Dashboard />
+                                    </ProtectedRoute>
                                 }
                             />
-                            <Route
-                                path="/checkout"
-                                element={
-                                    <Checkout />
-                                }
-                            />
+                            <Route path="/checkout" element={<Checkout />} />
                         </Routes>
-                        <Footer/>
-                    </AuthProvider>
-                </BrowserRouter>
-            </CartProvider>
+                        <Footer />
+                    </JWTProvider>
+                </AuthProvider>
+            </BrowserRouter>
             <Toaster />
-        </>
+        </CartProvider>
     );
-};
+}
 
 export default App;

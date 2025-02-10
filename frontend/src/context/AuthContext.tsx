@@ -93,15 +93,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const res = await api.post("/api/token/", { email, password });
             localStorage.setItem(ACCESS_TOKEN, res.data.access);
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-            await fetchUserData();
-            if (!userData) {
+            const fetchedUserData = await fetchUserData();
+            if (!fetchedUserData) {
                 throw new Error("An unexpected error occurred! Please try again.");
             }
             setIsLoggedIn(true);
             setSuccess("Login successful!");
-            if (userData.user_type.toLowerCase() === "farmer") {
-                console.log(userData);
-                navigate(`/dashboard/${userData.id}/`);
+            if (fetchedUserData.user_type.toLowerCase() === "farmer") {
+                console.log(fetchedUserData);
+                navigate(`/dashboard/${fetchedUserData.id}/`);
             } else {
                 navigate("/marketplace");
             }

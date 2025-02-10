@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import {
@@ -13,20 +13,27 @@ import { Loader } from "lucide-react";
 
 export const UserButton = () => {
     const { userData, isLoading, logout, fetchUserData } = useAuth();
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
     useEffect(() => {
-        fetchUserData().catch((error) => {
+        const loadUserData = async () => {
+            await fetchUserData();
+            setIsUserDataLoaded(true);
+        };
+        loadUserData().catch((error) => {
             console.error("Failed to fetch user data:", error);
         });
     }, []);
 
-    if (isLoading) {
+    if ( !isUserDataLoaded) {
         return (
             <div className="flex justify-end">
                 <Loader />;
             </div>
         );
     }
+
+    console.log(isLoading);
 
     if (!userData) {
         return null;
@@ -43,12 +50,18 @@ export const UserButton = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuGroup>
-                        <a href={`/profile/${userData.id}`}>
-                            <DropdownMenuItem>{userData.username}</DropdownMenuItem>
-                        </a>
-                        <a href={`/dashboard/${userData.id}`}>
-                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                        </a>
+                        { userData.user_type === "farmer" ? (
+                            <>
+                                <a href={`/profile/${userData.id}`} className="cursor-pointer">
+                                    <DropdownMenuItem>{userData.username}</DropdownMenuItem>
+                                </a>
+                                <a href={`/dashboard/${userData.id}`} className="cursor-pointer">
+                                    <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                                </a>
+                            </>
+                        ) : (
+                                <DropdownMenuItem>{userData.username}</DropdownMenuItem>
+                        ) }
                     </DropdownMenuGroup>
                     <DropdownMenuGroup>
                         <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
