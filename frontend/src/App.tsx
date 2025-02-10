@@ -13,61 +13,75 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { CartProvider } from '@/context/CartContext';
+import Checkout from "@/pages/Checkout";
+import { Toaster } from "@/components/ui/toaster"
 
 function App() {
     return (
-        <BrowserRouter>
-            <AuthProvider>
-                <Header />
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Home />
-                        }
-                    />
-                    <Route
-                        path="/find-deals"
-                        element={ <FindDealsPage /> }
-                    />
-                    <Route
-                        path="/profile/:userId"
-                        element={ <ProfilePage /> }
-                    />
-                    <Route
-                        path="/marketplace"
-                        element={ <Marketplace /> }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <ProtectedRoute>
-                                <Login />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/register"
-                        element={
-                            <ProtectedRoute>
-                                <Register />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/terms-of-service"
-                        element={ <Tos /> }
-                    />
-                    <Route
-                        path="/dashboard/:userId"
-                        element={
-                            <Dashboard />
-                        }
-                    />
-                </Routes>
-                <Footer/>
-            </AuthProvider>
-        </BrowserRouter>
+        <>
+            <CartProvider>
+                <BrowserRouter>
+                    <AuthProvider>
+                        <Header />
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={
+                                    <Home />
+                                }
+                            />
+                            <Route
+                                path="/find-deals"
+                                element={ <FindDealsPage /> }
+                            />
+                            <Route
+                                path="/profile/:userId"
+                                element={ <ProfilePage /> }
+                            />
+                            <Route
+                                path="/marketplace"
+                                element={ <Marketplace /> }
+                            />
+                            <Route
+                                path="/login"
+                                element={
+                                    <ProtectedRoute>
+                                        <Login />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/register"
+                                element={
+                                    <ProtectedRoute>
+                                        <Register />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/terms-of-service"
+                                element={ <Tos /> }
+                            />
+                            <Route
+                                path="/dashboard/:userId"
+                                element={
+                                    <Dashboard />
+                                }
+                            />
+                            <Route
+                                path="/checkout"
+                                element={
+                                    <Checkout />
+                                }
+                            />
+                        </Routes>
+                        <Footer/>
+                    </AuthProvider>
+                </BrowserRouter>
+            </CartProvider>
+            <Toaster />
+        </>
     );
 };
 

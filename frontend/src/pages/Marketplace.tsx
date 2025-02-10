@@ -31,10 +31,6 @@ function Marketplace() {
         setIsProductBuyOpenPopup(true);
     };
 
-    const handleAddToCartButtonClick = (productName: string) => {
-        console.log(`Adding ${productName} to cart`);
-    };
-
     // Pagination handlers
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -67,13 +63,13 @@ function Marketplace() {
                         }
                         return (
                             <ProductCard
+                                id={parsedProduct.data.id}
                                 key={index}
                                 buyNowHref=""
                                 price={parsedProduct.data.price}
                                 productName={parsedProduct.data.name}
                                 image={parsedProduct.data.image}
                                 viewDetailButtonOnClick={() => handleViewDetailButtonClick(parsedProduct.data)}
-                                addToCardButtonOnClick={() => handleAddToCartButtonClick(parsedProduct.data.name)}
                             />
                         );
                     })}
@@ -82,9 +78,6 @@ function Marketplace() {
             <div className=' p-2 flex flex-col gap-4'>
                 <div className='flex justify-between'>
                     <div className='text-3xl font-semibold'>Products</div>
-                    <div className='flex'>
-                        <p className='flex items-center'><Searchbox/></p>
-                    </div>
                 </div>
                 <div className='grid grid-cols-4 gap-x-6 gap-y-10 px-2 py-4'>
                     {currentProducts.map((data, index) => {
@@ -95,13 +88,13 @@ function Marketplace() {
                         }
                         return (
                             <ProductCard
+                                id={parsedProduct.data.id}
                                 key={index}
                                 price={parsedProduct.data.price}
                                 productName={parsedProduct.data.name}
                                 image={parsedProduct.data.image}
                                 buyNowHref=""
                                 viewDetailButtonOnClick={() => handleViewDetailButtonClick(parsedProduct.data)}
-                                addToCardButtonOnClick={() => handleAddToCartButtonClick(parsedProduct.data.name)}
                             />
                         );
                     })}

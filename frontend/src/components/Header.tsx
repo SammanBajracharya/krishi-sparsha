@@ -21,9 +21,9 @@ function Header() {
             </ul>
             {isLoggedIn ? (
                 <div className="flex items-center justify-end gap-x-4">
-                    <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center cursor-pointer">
+                    <a href="/checkout" className="h-10 w-10 rounded-full bg-white flex items-center justify-center cursor-pointer">
                         <ShoppingCart />
-                    </div>
+                    </a>
                     <UserButton />
                 </div>
             ) : (

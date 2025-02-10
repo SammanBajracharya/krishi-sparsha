@@ -11,11 +11,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "../ui/textarea";
 import api from "@/api";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 const CATOGORY_TYPE = ["seeds", "fruits", "vegetables", "flowers", "dairy"];
-const Product = ({ userId }: { userId: string }) => {
+const AddProduct = ({ userId }: { userId: string }) => {
     const [error, setError] = useState<string | null>("");
     const [success, setSuccess] = useState<string | null>("");
     const [isPending, startTransition] = useTransition();
@@ -67,7 +67,7 @@ const Product = ({ userId }: { userId: string }) => {
 
     return (
         <section className="flex flex-col gap-y-6 px-12 py-4">
-            <h2>Edit Your Profile</h2>
+            <h2>Add Product</h2>
             <Form {...form}>
                 <form
                     className="space-y-6"
@@ -190,4 +190,4 @@ const Product = ({ userId }: { userId: string }) => {
     );
 };
 
-export default EditProfile;
+export default AddProduct;

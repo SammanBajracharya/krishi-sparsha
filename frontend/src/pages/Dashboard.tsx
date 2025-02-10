@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 
 import LoadingState from "@/components/loading-state";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { BadgePlus, ChartSpline, ListTodo, LucideIcon, SquareChartGantt, UserPen } from "lucide-react";
+import { BadgePlus, ChartSpline, ListTodo, LucideIcon, UserPen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import EditProfile from "@/components/dashboard/EditProfile";
+import AddProduct from "@/components/dashboard/AddProduct";
 
 type DashboardState = "edit" | "add_product" | "analytics" | "todos";
 
@@ -101,12 +102,7 @@ function Dashboard() {
                                     case "edit":
                                         return ( <EditProfile user={userData} /> );
                                     case "add_product":
-                                        return (
-                                            <div>
-                                                <h1>Your Reviews</h1>
-                                                <p>Here you can review your sales and purchases.</p>
-                                            </div>
-                                        );
+                                        return ( <AddProduct userId={userData.id} /> );
                                     case "todos":
                                         return <Todo />;
                                     case "analytics":
