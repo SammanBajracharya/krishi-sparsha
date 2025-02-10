@@ -1,8 +1,10 @@
 import { BusinessInfo } from "@/components/BusinessInfo"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import  Analytics  from "@/components/Analytics"
 
 function Dashboard() {
+  
   return (
     <>
     <div className="p-6 shadow-lg flex flex-col gap-6 bg-white">
@@ -14,7 +16,7 @@ function Dashboard() {
                     trustedPer={96}
                     isProfile
                 />
-    <div className="p-4 shadow-lg rounded-lg flex flex-col gap-8">
+    <div className="p-4 rounded-lg flex flex-col gap-8">
       <div className="flex flex-col gap-6">
       <div className="text-3xl font-semibold">Hello,User </div>
       <div className="flex gap-4">
@@ -32,9 +34,10 @@ function Dashboard() {
         </div>
     </div>
     <Separator/>
-    <div className="flex flex-col gap-4">
-      <div>Your Analytics</div>
-      <div className="border-[1px] border-black">
+    <div className="flex flex-col gap-6">
+      <div className="text-4xl font-bold">Your Analytics</div>
+      <div className="">
+    <Analytics/>
       </div>
     </div>
     </div>
