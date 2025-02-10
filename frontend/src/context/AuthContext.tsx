@@ -15,7 +15,7 @@ interface AuthContextType {
     setError?: (values: string) => void;
     success?: string;
     resetMessages: () => void;
-    fetchUserData: () => void;
+    fetchUserData: () => z.infer<typeof UserSchema> | null;
     userData: z.infer<typeof UserSchema> | null;
 }
 
