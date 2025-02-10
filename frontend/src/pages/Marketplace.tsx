@@ -27,7 +27,7 @@ function Marketplace() {
                 <div className='text-3xl font-semibold'>
                     Trending Products
                 </div>
-                <div className='grid grid-cols-4 gap-4 px-2 py-4'>
+                <div className='grid grid-cols-4 gap-x-6 gap-y-10 px-2 py-4'>
                     {/** TODO: filter based on sales */}
                     {mockProducts.slice(0, 4).map((data, index) => {
                         const parsedProduct = ProductSchema.safeParse(data);  // Validate using Zod schema
@@ -50,16 +50,13 @@ function Marketplace() {
                 </div>
             </div>
             <div className=' p-2 flex flex-col gap-4'>
-                <div className='flex'>
-
-                </div>
                 <div className='flex justify-between'>
-                    <div className='text-3xl font-semibold'  >Products</div>
+                    <div className='text-3xl font-semibold'>Products</div>
                     <div className='flex'>
                         <p className='bg-white flex items-center px-2'><Search /></p><input className='py-2 px-2 text-md outline-none' placeholder='search ' type="text" name="" id="" />
                     </div>
                 </div>
-                <div className='grid grid-cols-4 gap-4 px-2 py-4'>
+                <div className='grid grid-cols-4 gap-x-6 gap-y-10 px-2 py-4'>
                     {mockProducts.map((data, index) => {
                         const parsedProduct = ProductSchema.safeParse(data);  // Validate using Zod schema
                         if (!parsedProduct.success) {
