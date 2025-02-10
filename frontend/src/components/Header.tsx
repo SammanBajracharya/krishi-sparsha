@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import logo from '@/assets/krishi.svg'
 import { UserButton } from "@/components/UserButton";
 import { useAuth } from "@/context/AuthContext";
+import { ShoppingCart } from "lucide-react";
 
 function Header() {
     const { isLoggedIn } = useAuth();
@@ -19,7 +20,12 @@ function Header() {
                 <li><a href="/find-deals">Find Deals</a></li>
             </ul>
             {isLoggedIn ? (
-                <UserButton />
+                <div className="flex items-center justify-end gap-x-4">
+                    <div className="h-10 w-10 rounded-full bg-white flex items-center justify-center cursor-pointer">
+                        <ShoppingCart />
+                    </div>
+                    <UserButton />
+                </div>
             ) : (
                 <div className="flex gap-4 justify-end">
                     <a href="/login">

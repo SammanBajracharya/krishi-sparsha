@@ -31,7 +31,6 @@ const ProfilePage = () => {
                 location={userData.address as string}
                 rating={userData.rating}
                 isProfile={isProfile}
-                isLoggedIn={isLoggedIn}
             />
             <Profile />
         </div>

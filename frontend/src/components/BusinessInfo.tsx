@@ -20,7 +20,6 @@ export const BusinessInfo = ({
     location,
     image,
     isChild,
-    isProfile,
 }: BusinessInfoProps) => {
     return (
         <div className="flex flex-col md:flex-row gap-x-8">
@@ -54,9 +53,6 @@ export const BusinessInfo = ({
                         <a>{location}</a>
                     </div>
                 </div>
-                {isProfile && !isChild && (
-                    <a className="text-blue-700" href="/dashboard">Dashboard Page</a>
-                )}
             </div>
         </div>
     )

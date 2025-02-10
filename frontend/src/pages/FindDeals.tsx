@@ -12,6 +12,15 @@ const FindDealsPage = () => {
     const [isProductBuyCardOpen, setIsProductBuyOpenPopup] = useState<boolean>(false);
     const [selectedProduct, setSelectedProduct] = useState<z.infer<typeof ProductSchema> | null>(null);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const profilesPerPage = 4;
+
+    const totalPages = Math.ceil(mockUsers.length / profilesPerPage);
+
+    const indexOfLastProfile = currentPage * profilesPerPage;
+    const indexOfFirstProfile = indexOfLastProfile - profilesPerPage;
+    const currentProfiles = mockUsers.slice(indexOfFirstProfile, indexOfLastProfile);
+
     const handleViewDetailButtonClick = (product: z.infer<typeof ProductSchema>) => {
         setSelectedProduct(product);
         setIsProductBuyOpenPopup(true);
@@ -19,6 +28,20 @@ const FindDealsPage = () => {
 
     const handleAddToCartButtonClick = (productId: string) => {
         console.log(`Adding ${productId} to cart`);
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+            window.scrollTo(0, 0); // Scroll to top
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+            window.scrollTo(0, 0); // Scroll to top
+        }
     };
 
     return (
@@ -29,17 +52,28 @@ const FindDealsPage = () => {
                     <p className="mt-2 text-gray-500">Find the best deals from the best businesses</p>
                 </div>
                 <Separator />
-                { mockUsers.map((user, index) => (
-                    <ProfileCard
-                        key={index}
-                        handleAddToCartButtonClick={handleAddToCartButtonClick}
-                        handleViewDetailButtonClick={handleViewDetailButtonClick}
-                        products={mockProducts}
-                        user={user}
-                    />
-                ))}
+                <div className='grid grid-cols-1 gap-6'>
+                    {currentProfiles.map((user, index) => (
+                        <ProfileCard
+                            key={index}
+                            handleAddToCartButtonClick={handleAddToCartButtonClick}
+                            handleViewDetailButtonClick={handleViewDetailButtonClick}
+                            products={mockProducts}
+                            user={user}
+                        />
+                    ))}
+                </div>
+                <div className='flex justify-between'>
+                    <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                        Previous
+                    </button>
+                    <span>Page {currentPage} of {totalPages}</span>
+                    <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        Next
+                    </button>
+                </div>
             </div>
-            { isProductBuyCardOpen && (
+            {isProductBuyCardOpen && (
                 <ProductDetailCard
                     product={selectedProduct}
                     buyNowHref=""

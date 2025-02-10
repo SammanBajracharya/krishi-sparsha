@@ -28,7 +28,7 @@ export const ProfileCard = ({
                     businessName={user.username}
                     mobile={user.phone as string}
                     location={user.address as string}
-                    rating={user.rating as number}
+                    isChild
                 />
             </CardHeader>
             <Separator />

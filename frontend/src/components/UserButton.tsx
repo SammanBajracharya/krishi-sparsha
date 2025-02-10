@@ -33,7 +33,7 @@ export const UserButton = () => {
     }
 
     return (
-        <div className="cursor-pointer flex justify-end">
+        <div className="cursor-pointer">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Avatar>
