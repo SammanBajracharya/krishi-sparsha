@@ -18,6 +18,7 @@ class UserManager(BaseUserManager):
         user_type,
         address,
         phone,
+        discount_cards=None,
         image=None,
         **extra_fields
     ):
@@ -31,6 +32,7 @@ class UserManager(BaseUserManager):
             address=address,
             phone=phone,
             image=image,
+            discount_cards=discount_cards,
             **extra_fields
         )
         user.set_password(password)
@@ -46,6 +48,7 @@ class UserManager(BaseUserManager):
         address="",
         phone="",
         image=None,
+        discount_cards=None,
     ):
         user = self.create_user(
             email=email,
@@ -55,11 +58,22 @@ class UserManager(BaseUserManager):
             address=address,
             phone=phone,
             image=image,
+            discount_cards=discount_cards,
         )
         user.is_staff = True
         user.is_superuser = True
         user.save()
         return user
+
+
+class DiscountCard(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    code = models.CharField(max_length=5)
+    discount = models.DecimalField(max_digits=5, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def str(self):
+        return self.card_name
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -95,14 +109,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     image = models.FileField(
         upload_to='static/uploads',
         null=True,
-        blank=True
+        blank=True,
+    )
+    discount_cards = models.ForeignKey(
+        DiscountCard,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "user_type", "address", "phone", "address"]
     objects = UserManager()
 
-    def __str__(self):
+    def str(self):
         return self.username
 
     def is_farmer(self):
@@ -138,6 +158,7 @@ class Product(models.Model):
     sales_number = models.IntegerField(default=0)
     description = models.CharField(max_length=1000, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    discount_applied = models.BooleanField(default=False)
 
     def str(self):
         return self.name
@@ -184,5 +205,5 @@ class Order(models.Model):
         self.total_price = self.product.price * self.quantity
         super().save(*args, **kwargs)
 
-    def __str__(self):
+    def str(self):
         return str(self.order_id)
