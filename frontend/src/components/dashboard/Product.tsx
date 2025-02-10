@@ -1,7 +1,7 @@
 import { useTransition, useState } from "react";
 
 import * as z from "zod";
-import { UserSchema } from "@/schemas";
+import { ProductSchema } from "@/schemas";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,45 +11,50 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "../ui/textarea";
 import api from "@/api";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 
-interface EditProfileProps {
-    user: z.infer<typeof UserSchema>;
-}
 
-const EditProfile = ({ user }: EditProfileProps) => {
+const CATOGORY_TYPE = ["seeds", "fruits", "vegetables", "flowers", "dairy"];
+const Product = ({ userId }: { userId: string }) => {
     const [error, setError] = useState<string | null>("");
     const [success, setSuccess] = useState<string | null>("");
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<z.infer<typeof UserSchema>>({
-        resolver: zodResolver(UserSchema),
+    const form = useForm<z.infer<typeof ProductSchema>>({
+        resolver: zodResolver(ProductSchema),
         defaultValues: {
-            username: user.username || "",
-            description: user.description || "",
-            phone: user.phone || "",
-            address: user.address || "",
-            email: user.email || "",
+            name: "",
+            description: "",
+            price: 0.0,
+            image: "",
+            salesNumber: 0.0,
+            category: undefined,
+            quantity: 0.0,
         }
     });
 
-    const onSubmit = (values: z.infer<typeof UserSchema>) => {
+    const onSubmit = (values: z.infer<typeof ProductSchema>) => {
         console.log(values);
-        const validatedFields = UserSchema.safeParse(values);
+        const validatedFields = ProductSchema.safeParse(values);
         if (!validatedFields.success) {
             setError("Invalid Fields!");
             console.log("Validation failed:", validatedFields.error);
             return null;
         }
 
-        const { username, address, phone, description, email } = validatedFields.data;
+        const { name, description, price, image, salesNumber, category, quantity } = validatedFields.data;
+        const product_owner = userId;
         startTransition(async () => {
             try {
-                const res = await api.patch(`/users/update/${user.id}`, {
-                    username,
-                    address,
-                    phone,
+                const res = await api.patch(`/products/`, {
+                    name,
                     description,
-                    email
+                    price,
+                    image,
+                    salesNumber,
+                    category,
+                    quantity,
+                    product_owner
                 });
                 console.log("API response:", res);
                 setSuccess("Successfully updated user!");
@@ -71,7 +76,7 @@ const EditProfile = ({ user }: EditProfileProps) => {
                     <div className="space-y-4">
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="name"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
@@ -80,25 +85,7 @@ const EditProfile = ({ user }: EditProfileProps) => {
                                             type="text"
                                             {...field}
                                             disabled={true}
-                                            placeholder="john.doe"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="username"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            {...field}
-                                            disabled={isPending}
-                                            placeholder="john.doe"
+                                            placeholder="Organic Apples"
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -124,34 +111,62 @@ const EditProfile = ({ user }: EditProfileProps) => {
                         />
                         <FormField
                             control={form.control}
-                            name="phone"
+                            name="price"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input
-                                            type="tel"
+                                            type="number"
                                             {...field}
                                             disabled={isPending}
-                                            placeholder="98********"
+                                            placeholder="0.0"
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+                            <FormField
+                                control={form.control}
+                                name="category"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>User Type</FormLabel>
+                                        <Select
+                                            disabled={isPending}
+                                            value={field.value}
+                                            onValueChange={field.onChange}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select User Type" className="capitalize placeholder:text-muted-foreground placeholder:text-base" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {CATOGORY_TYPE.map((type) => (
+                                                    <SelectItem className="text-sm capitalize " key={type} value={type}>
+                                                        {type}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         <FormField
                             control={form.control}
-                            name="address"
+                            name="quantity"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Address</FormLabel>
+                                    <FormLabel>Username</FormLabel>
                                     <FormControl>
                                         <Input
-                                            type="text"
+                                            type="number"
                                             {...field}
-                                            disabled={false}
-                                            placeholder="Kathmandu, Nepal"
+                                            disabled={isPending}
+                                            placeholder="0.0"
                                         />
                                     </FormControl>
                                     <FormMessage />

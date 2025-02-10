@@ -48,7 +48,6 @@ export const DiscountCardSchema = z.object({
 });
 
 export const UserSchema = z.object({
-    id: UUIDSchema.default(uuidv4),
     email: z.string().email({
         message: "Email is required."
     }),
@@ -56,7 +55,7 @@ export const UserSchema = z.object({
         message: "Username is required."
     }),
     description: z.string().min(20, {
-        message: "Description is required."
+        message: "Minimum 20 character required."
     }).optional(),
     user_type: UserTypeEnum,
     address: z.string().min(1, {
