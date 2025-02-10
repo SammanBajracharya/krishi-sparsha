@@ -60,7 +60,9 @@ function App() {
                     />
                     <Route
                         path="/dashboard/:userId"
-                        element={ <Dashboard /> }
+                        element={
+                            <Dashboard />
+                        }
                     />
                 </Routes>
                 <Footer/>

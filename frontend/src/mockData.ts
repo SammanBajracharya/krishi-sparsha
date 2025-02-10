@@ -3,16 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     CategorySchema,
     ProductSchema,
-    UserSchema,
-    UserTypeEnum,
 } from "./schemas/index";
-
-export const mockData = [
-    { price: 35, productName: "Potato" },
-    { price: 35, productName: "Potato" },
-    { price: 35, productName: "Potato" },
-    { price: 35, productName: "Potato" },
-];
 
 const generatedProductNames = new Set<string>();
 
@@ -36,7 +27,7 @@ const generateMockProduct = () => {
     });
 };
 
-export const mockProducts = Array.from({ length: 10 }, generateMockProduct);
+export const mockProducts = Array.from({ length: 20 }, generateMockProduct);
 
 export const mockUsers = [
     {

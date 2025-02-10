@@ -18,22 +18,24 @@ export const ProductCard = ({
     addToCardButtonOnClick,
 }: ProductCardProps) => {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-white rounded-md overflow-hidden shadow-sm">
             <img
                 src={image}
-                className="w-full h-40 object-cover rounded-md"
+                className="w-full h-40 object-cover"
             />
-            <p className="mt-2">Rs. {price} per kg</p>
-            <h3 className="font-bold mb-4 cursor-pointer hover:underline" onClick={viewDetailButtonOnClick}>{productName}</h3>
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-2">
-                <a href={buyNowHref} className="w-full">
-                    <Button variant="primary" size="lg" className="w-full px-0">
-                        Buy Now
+            <div className="px-4 py-3">
+                <p className="mt-2">Rs. {price} per kg</p>
+                <h3 className="font-bold mb-4 cursor-pointer hover:underline" onClick={viewDetailButtonOnClick}>{productName}</h3>
+                <div className="flex flex-col lg:flex-row items-center justify-between gap-2">
+                    <a href={buyNowHref} className="w-full">
+                        <Button variant="primary" size="lg" className="w-full px-0">
+                            Buy Now
+                        </Button>
+                    </a>
+                    <Button variant="outline" size="lg" className="w-full px-0" onClick={addToCardButtonOnClick}>
+                        Add To Cart
                     </Button>
-                </a>
-                <Button variant="outline" size="lg" className="w-full px-0" onClick={addToCardButtonOnClick}>
-                    Add To Cart
-                </Button>
+                </div>
             </div>
         </div>
     );
