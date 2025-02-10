@@ -17,7 +17,7 @@ export const UserButton = () => {
     const { logout, fetchUserData } = useAuth();
 
     useEffect(() => {
-        fetchUserData().
+        fetchUserData()?.
             then((data: z.infer<typeof UserSchema>) => {
                 setUserData(data);
             });

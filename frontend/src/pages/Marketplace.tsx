@@ -24,7 +24,9 @@ function Marketplace() {
 
     return (
         <div className='flex flex-col gap-8 p-4 '>
-            <div className='flex justify-center  p-2'><Carousel/></div>
+            <div className='flex justify-center p-2'>
+                <Carousel/>
+            </div>
             <div className=' flex flex-col gap-4'>
                 <div className='text-3xl font-semibold'>
                     Trending Products
@@ -81,8 +83,8 @@ function Marketplace() {
 
                 </div>
                 <div>
-                        <PaginationDemo/>
-                    </div>
+                    <PaginationDemo/>
+                </div>
             </div>
             <div className='bg-neutral-300 h-64 p-2'>banner</div>
             { isProductBuyCardOpen && (
