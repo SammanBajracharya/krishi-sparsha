@@ -1,21 +1,35 @@
 import { BusinessInfo } from "@/components/BusinessInfo";
 import { Profile } from "@/components/Profile";
+import { useAuth } from "@/context/AuthContext";
+import { getUserWithId } from "@/lib/utils";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilePage = () => {
+    const { userId } = useParams();
+    const { isLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
+    const userData = getUserWithId(userId as string);
+
+    if (!userData) {
+        navigate("/find-deals");
+        return;
+    }
+
+    console.log(userData);
+
     return (
         <div className="p-6 shadow-lg flex flex-col gap-6">
             <BusinessInfo
-                image="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
-                businessName="Sato"
-                mobile="+977 9343234343"
-                location="sdfdsf"
-                trustedPer={96}
+                id={userId as string}
+                image={userData.image as string}
+                businessName={userData.username}
+                mobile={userData.phone as string}
+                location={userData.address as string}
+                rating={userData.rating}
                 isProfile
+                isLoggedIn={isLoggedIn}
             />
-            <div className="border-[1px] border-gray-400 flex gap-4">
-                <p className="px-4 py-2 border-l-[1px] border-gray-400"><a href="/profile">Profile</a></p>
-                <p className="px-4 py-2 border-r-[1px] border-l-[1px] border-gray-400"><a href="/dashboard">Dashboard</a></p>
-            </div>
             <Profile />
         </div>
     )

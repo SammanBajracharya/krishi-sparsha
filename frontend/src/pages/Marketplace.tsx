@@ -35,7 +35,7 @@ function Marketplace() {
                         const parsedProduct = ProductSchema.safeParse(data);  // Validate using Zod schema
                         if (!parsedProduct.success) {
                             console.error("Invalid product data", parsedProduct.error);
-                            return null;  // Skip invalid products
+                            return null;
                         }
                         return (
                             <ProductCard
