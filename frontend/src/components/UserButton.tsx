@@ -11,6 +11,8 @@ import { useAuth } from '@/context/AuthContext';
 export const UserButton = () => {
     const { logout, userData } = useAuth();
 
+    console.log(userData);
+
     if (!userData) {
         return null;
     }

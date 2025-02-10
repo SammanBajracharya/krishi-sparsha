@@ -42,10 +42,10 @@ export const Profile = () => {
                                 key={index}
                                 buyNowHref=""
                                 price={parsedProduct.data.price}
-                                productName={parsedProduct.data.title}
+                                productName={parsedProduct.data.name}
                                 image={parsedProduct.data.image}
                                 viewDetailButtonOnClick={() => handleViewDetailButtonClick(parsedProduct.data)}
-                                addToCardButtonOnClick={() => handleAddToCartButtonClick(parsedProduct.data.title)}
+                                addToCardButtonOnClick={() => handleAddToCartButtonClick(parsedProduct.data.name)}
                             />
                         );
                     })}

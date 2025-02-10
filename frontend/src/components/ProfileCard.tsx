@@ -46,7 +46,7 @@ export const ProfileCard = ({
                             <ProductCard
                                 key={index}
                                 price={parsedProduct.data.price}
-                                productName={parsedProduct.data.title}
+                                productName={parsedProduct.data.name}
                                 image={parsedProduct.data.image}
                                 buyNowHref=""
                                 viewDetailButtonOnClick={() => handleViewDetailButtonClick(parsedProduct.data)}
