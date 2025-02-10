@@ -8,6 +8,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Marketplace from "./pages/Marketplace";
 import Footer from "./components/Footer";
+import Payment from '@/pages/Payment'
 import Tos from "./pages/Tos";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "@/components/ProtectedRoute";
@@ -57,6 +58,10 @@ function App() {
                     <Route
                         path="/terms-of-service"
                         element={ <Tos /> }
+                    />
+                    <Route
+                        path="/payment"
+                        element={ <Payment /> }
                     />
                     <Route
                         path="/dashboard/:userId"

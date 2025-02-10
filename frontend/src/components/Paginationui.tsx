@@ -74,7 +74,7 @@ const Paginationui = () => {
         )}
 
         {currentPage < totalPages - 1 && <PaginationItem><PaginationEllipsis /></PaginationItem>}
-
+        
         <PaginationItem>
           <PaginationNext
             href="#"

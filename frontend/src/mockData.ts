@@ -251,3 +251,185 @@ export const mockUsers = [
         "rating": 72
     }
 ]
+
+export const mockFarmers= [
+
+        {
+          "id": "2a2fe1e5-1fa2-4d2b-b2b2-e3ab25e3a7f5",
+          "email": "john.doe@example.com",
+          "username": "john_doe",
+          "description": "A passionate farmer with years of experience in organic farming. Focused on sustainable practices.",
+          "user_type": "farmer",
+          "address": "123 Maple Street, Springfield, IL",
+          "phone": "+1 555-123-4567",
+          "image": "https://example.com/images/john.jpg",
+          "discountCard": {
+            "cardNumber": "DC123456789",
+            "expirationDate": "2026-12-31"
+          }
+        },
+        {
+          "id": "3b0b1e6f-3f22-4fa7-9ad5-e5a9d5c2f607",
+          "email": "jane.smith@example.com",
+          "username": "jane_smith",
+          "description": "Dedicated software developer, passionate about creating impactful digital experiences.",
+          "user_type": "farmer",
+          "address": "456 Oak Avenue, New York, NY",
+          "phone": "+1 555-234-5678",
+          "image": "https://example.com/images/jane.jpg",
+          "discountCard": {
+            "cardNumber": "DC987654321",
+            "expirationDate": "2025-11-30"
+          }
+        },
+        {
+          "id": "9e6d44a4-8d25-4f0e-8b9e-68f8a5491f1e",
+          "email": "alice.jones@example.com",
+          "username": "alice_jones",
+          "description": "Creative artist with a love for painting and photography.",
+          "user_type": "farmer",
+          "address": "789 Pine Road, Los Angeles, CA",
+          "phone": "+1 555-345-6789",
+          "image": "https://example.com/images/alice.jpg",
+          "discountCard": {
+            "cardNumber": "DC112233445",
+            "expirationDate": "2024-06-15"
+          }
+        },
+        {
+          "id": "d87f5e5a-ecb4-49b7-b827-b8f0a819bf34",
+          "email": "bob.miller@example.com",
+          "username": "bob_miller",
+          "description": "Tech enthusiast, hobbyist programmer, and occasional gamer.",
+          "user_type": "farmer",
+          "address": "101 Birch Lane, Miami, FL",
+          "phone": "+1 555-456-7890",
+          "image": "https://example.com/images/bob.jpg",
+          "discountCard": null
+        },
+        {
+          "id": "eafc67d3-9a44-47e2-85fe-91428d9a3db6",
+          "email": "carol.white@example.com",
+          "username": "carol_white",
+          "description": "Innovative marketer specializing in digital advertising and content creation.",
+          "user_type": "farmer",
+          "address": "202 Cedar Blvd, Austin, TX",
+          "phone": "+1 555-567-8901",
+          "image": "https://example.com/images/carol.jpg",
+          "discountCard": {
+            "cardNumber": "DC223344556",
+            "expirationDate": "2025-05-20"
+          }
+        },
+        {
+          "id": "178fe8a7-c27d-4a02-8488-34ff45747397",
+          "email": "david.lewis@example.com",
+          "username": "david_lewis",
+          "description": "Aspiring entrepreneur focused on technology-driven solutions for sustainability.",
+          "user_type": "farmer",
+          "address": "303 Redwood Drive, Seattle, WA",
+          "phone": "+1 555-678-9012",
+          "image": "https://example.com/images/david.jpg",
+          "discountCard": null
+        },
+        {
+          "id": "998b2b21-cc5c-44fe-8193-6317d34754a3",
+          "email": "emily.taylor@example.com",
+          "username": "emily_taylor",
+          "description": "Travel blogger and photographer, capturing the essence of the world's most beautiful places.",
+          "user_type": "farmer",
+          "address": "404 Willow Road, Chicago, IL",
+          "phone": "+1 555-789-0123",
+          "image": "https://example.com/images/emily.jpg",
+          "discountCard": {
+            "cardNumber": "DC334455667",
+            "expirationDate": "2026-03-10"
+          }
+        },
+        {
+          "id": "5c045f6c-dfc0-4b89-bdbf-f9fe6a6199f1",
+          "email": "frank.moore@example.com",
+          "username": "frank_moore",
+          "description": "Full-stack developer with a passion for building innovative applications.",
+          "user_type": "farmer",
+          "address": "505 Fir Place, Boston, MA",
+          "phone": "+1 555-890-1234",
+          "image": "https://example.com/images/frank.jpg",
+          "discountCard": null
+        },
+        {
+          "id": "c047ef65-327d-4790-bf24-e8e6d33f93ed",
+          "email": "grace.wilson@example.com",
+          "username": "grace_wilson",
+          "description": "Senior UX/UI designer focused on creating intuitive and beautiful user interfaces.",
+          "user_type": "farmer",
+          "address": "606 Aspen Lane, Denver, CO",
+          "phone": "+1 555-901-2345",
+          "image": "https://example.com/images/grace.jpg",
+          "discountCard": {
+            "cardNumber": "DC445566778",
+            "expirationDate": "2027-01-01"
+          }
+        },
+        {
+          "id": "f3c8cb8f-fc8d-48b6-b575-9a6f1b168a24",
+          "email": "henry.green@example.com",
+          "username": "henry_green",
+          "description": "Outdoor enthusiast and professional landscaper dedicated to transforming spaces.",
+          "user_type": "farmer",
+          "address": "707 Elm St, Portland, OR",
+          "phone": "+1 555-012-3456",
+          "image": "https://example.com/images/henry.jpg",
+          "discountCard": null
+        },
+        {
+          "id": "65b118c7-84b2-4e8b-bb36-e9f9d6e99ae3",
+          "email": "isla.martin@example.com",
+          "username": "isla_martin",
+          "description": "Health and wellness advocate, certified yoga instructor.",
+          "user_type": "farmer",
+          "address": "808 Magnolia Blvd, Salt Lake City, UT",
+          "phone": "+1 555-123-6789",
+          "image": "https://example.com/images/isla.jpg",
+          "discountCard": {
+            "cardNumber": "DC556677889",
+            "expirationDate": "2024-08-14"
+          }
+        },
+        {
+          "id": "5f7e2d5b-5bcd-44f7-b2a0-5891c0a689be",
+          "email": "jackson.brown@example.com",
+          "username": "jackson_brown",
+          "description": "Experienced chef and culinary consultant specializing in farm-to-table cuisine.",
+          "user_type": "farmer",
+          "address": "909 Cedar Hill Rd, Phoenix, AZ",
+          "phone": "+1 555-234-7890",
+          "image": "https://example.com/images/jackson.jpg",
+          "discountCard": null
+        },
+        {
+          "id": "1a53a55e-8c18-4274-b8f9-dfe8770b330b",
+          "email": "katie.harris@example.com",
+          "username": "katie_harris",
+          "description": "Environmental scientist with a focus on climate change and renewable energy.",
+          "user_type": "farmer",
+          "address": "1010 Cedar Grove, Houston, TX",
+          "phone": "+1 555-345-8901",
+          "image": "https://example.com/images/katie.jpg",
+          "discountCard": {
+            "cardNumber": "DC667788990",
+            "expirationDate": "2026-09-30"
+          }
+        },
+        {
+          "id": "3f3bb9f9-e798-43be-836e-b5b9ff63b9ef",
+          "email": "luke.clark@example.com",
+          "username": "luke_clark",
+          "description": "Freelance photographer and videographer specializing in nature and outdoor adventure.",
+          "user_type": "farmer",
+          "address": "1111 Walnut Ave, San Francisco, CA",
+          "phone": "+1 555-456-9012",
+          "image": "https://example.com/images/luke.jpg",
+          "discountCard": null
+        } 
+]
