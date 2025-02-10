@@ -1,4 +1,5 @@
-import { useState, useTransition } from "react";
+import { useEffect, useTransition, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 import * as z from "zod";
 import { UserSchema } from "@/schemas";
@@ -9,6 +10,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from "../ui/textarea";
 
 interface EditProfileProps {
     user: z.infer<typeof UserSchema>;
@@ -18,16 +20,22 @@ const EditProfile = ({ user }: EditProfileProps) => {
     const [error, setError] = useState<string | null>("");
     const [success, setSuccess] = useState<string | null>("");
     const [isPending, startTransition] = useTransition();
+    const { userData, isLoading, fetchUserData } = useAuth();
+
+    useEffect(() => {
+        fetchUserData().catch((error) => {
+            console.error("Failed to fetch user data:", error);
+        });
+    }, []);
 
     const form = useForm<z.infer<typeof UserSchema>>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
-            email: "",
-            username: "",
-            password: "",
-            description: "",
-            phone: "",
-            address: "",
+            email: userData?.email || "",
+            username: userData?.username || "",
+            description: userData?.description || "",
+            phone: userData?.phone || "",
+            address: userData?.address || "",
         }
     });
 
@@ -69,10 +77,10 @@ const EditProfile = ({ user }: EditProfileProps) => {
                                         <FormLabel>Username</FormLabel>
                                         <FormControl>
                                             <Input
-                                                type="text"
+                                                type="username"
                                                 {...field}
-                                                disabled={isPending}
-                                                placeholder="John Doe"
+                                                disabled={false}
+                                                placeholder="john.doe"
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -84,13 +92,48 @@ const EditProfile = ({ user }: EditProfileProps) => {
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>Description</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                disabled={false}
+                                                placeholder="Tell us about yourself..."
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Phone</FormLabel>
                                         <FormControl>
                                             <Input
-                                                type="text-area"
+                                                type="number"
                                                 {...field}
-                                                disabled={isPending}
-                                                placeholder="My name is John Doe..."
+                                                disabled={false}
+                                                placeholder="98********"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="address"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Address</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="text"
+                                                {...field}
+                                                disabled={false}
+                                                placeholder="Kathmandu, Nepal"
                                             />
                                         </FormControl>
                                         <FormMessage />

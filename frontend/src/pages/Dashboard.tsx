@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import  Analytics  from "@/components/dashboard/Analytics"
+import Analytics from "@/components/dashboard/Analytics"
+import Todo from "@/components/dashboard/Todo"
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 
@@ -106,12 +107,7 @@ function Dashboard() {
                                             </div>
                                         );
                                     case "todos":
-                                        return (
-                                            <div>
-                                                <h1>Your Todos</h1>
-                                                <p>Here you can manage your todos.</p>
-                                            </div>
-                                        );
+                                        return <Todo />;
                                     case "analytics":
                                         return (
                                             <div>

@@ -134,3 +134,9 @@ export const OrderSchema = z.object({
     orderDate: z.preprocess((arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : arg), z.date()),
     paymentMethod: PaymentMethodSchema,
 });
+
+export const TodoSchema = z.object({
+    title: z.string().min(1, {
+        message: "Todo required!",
+    }),
+});
