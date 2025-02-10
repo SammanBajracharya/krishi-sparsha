@@ -7,6 +7,9 @@ import ProfilePage from "@/pages/ProfilePage";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Marketplace from "./pages/Marketplace";
+import Footer from "./components/Footer";
+import Tos from "./pages/Tos";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
     return (
@@ -40,7 +43,16 @@ function App() {
                         path="/register"
                         element={ <Register /> }
                     />
+                    <Route
+                        path="/terms-of-service"
+                        element={ <Tos /> }
+                    />
+                    <Route
+                        path="/dashboard"
+                        element={ <Dashboard /> }
+                    />
                 </Routes>
+                <Footer/>
             </AuthProvider>
         </BrowserRouter>
     );

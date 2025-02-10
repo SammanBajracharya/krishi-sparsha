@@ -10,7 +10,7 @@ function Header() {
         <nav className="grid items-center grid-cols-3 p-4 border-b-[1px] border-gray-400/40">
             <a className="hover:scale-105 transition-all">
                 <div>
-                    <img src={logo} alt="Logo" />
+                    <a href="/"><img src={logo} alt="Logo" /></a>
                 </div>
             </a>
             <ul className="w-full flex gap-8 items-center justify-center text-lg">

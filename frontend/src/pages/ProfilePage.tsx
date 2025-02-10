@@ -13,8 +13,8 @@ const ProfilePage = () => {
                 isProfile
             />
             <div className="border-[1px] border-gray-400 flex gap-4">
-                <p className="px-4 py-2 border-l-[1px] border-gray-400">Profile</p>
-                <p className="px-4 py-2 border-r-[1px] border-l-[1px] border-gray-400">Dashboard</p>
+                <p className="px-4 py-2 border-l-[1px] border-gray-400"><a href="/profile">Profile</a></p>
+                <p className="px-4 py-2 border-r-[1px] border-l-[1px] border-gray-400"><a href="/dashboard">Dashboard</a></p>
             </div>
             <Profile />
         </div>
