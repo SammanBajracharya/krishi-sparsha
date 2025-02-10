@@ -25,7 +25,7 @@ const Carousel: React.FC = () => {
                         alt="Image 1"
                         className="w-full h-full object-cover rounded-lg"
                     />
-                    <div className="absolute inset-0 bg-black opacity-30"></div>
+                    <div className="absolute inset-0"></div>
                 </div>
 
                 {/* Slide 2 */}
@@ -35,7 +35,7 @@ const Carousel: React.FC = () => {
                         alt="Image 2"
                         className="w-full h-full object-fill rounded-lg"
                     />
-                    <div className="absolute inset-0 bg-black opacity-30"></div>
+                    <div className="absolute inset-0 "></div>
                 </div>
 
 
@@ -45,7 +45,7 @@ const Carousel: React.FC = () => {
                         alt="Image 3"
                         className="w-full h-full object-fill rounded-lg"
                     />
-                    <div className="absolute inset-0 bg-black opacity-30"></div>
+                    <div className="absolute inset-0 "></div>
                 </div>
 
                 <div className="relative h-[65vh]">
@@ -54,7 +54,7 @@ const Carousel: React.FC = () => {
                         alt="Image 4"
                         className="w-full h-full object-fill rounded-lg"
                     />
-                    <div className="absolute inset-0 bg-black opacity-30"></div>
+                    <div className="absolute inset-0 "></div>
                 </div>
             </Slider>
         </div>
