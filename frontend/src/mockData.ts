@@ -17,4 +17,4 @@ const generateMockProduct = () => ({
     category: faker.helpers.arrayElement(CategorySchema.options), // Picks a random category
 });
 
-export const mockProducts = Array.from({ length: 10 }, generateMockProduct);
+export const mockProducts = Array.from({ length: 20 }, generateMockProduct);

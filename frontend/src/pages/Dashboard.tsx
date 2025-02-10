@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator"
 
 function Dashboard() {
   return (
+    <>
     <div className="p-6 shadow-lg flex flex-col gap-6 bg-white">
                 <BusinessInfo
                     image="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
@@ -38,6 +39,7 @@ function Dashboard() {
     </div>
     </div>
     </div>
+   </>
   )
 }
 

@@ -1,11 +1,13 @@
 import * as z from "zod";
 
 import { useState } from 'react';
-import { Search } from 'lucide-react';
+import {Searchbox} from '@/components/Searchbox'
 import { ProductCard } from '@/components/ProductCard'
 import { mockProducts } from '@/mockData'
 import { ProductDetailCard } from '@/components/ProductDetailCard';
 import { ProductSchema } from '@/schemas/index';
+import { PaginationDemo } from "@/components/Paginationui";
+import Carousel from "@/components/Caraousel"
 
 function Marketplace() {
     const [isProductBuyCardOpen, setIsProductBuyOpenPopup] = useState<boolean>(false);
@@ -22,7 +24,7 @@ function Marketplace() {
 
     return (
         <div className='flex flex-col gap-8 p-4 '>
-            <div className='bg-neutral-300 h-64 p-2'>banner</div>
+            <div className='flex justify-center  p-2'><Carousel/></div>
             <div className=' flex flex-col gap-4'>
                 <div className='text-3xl font-semibold'>
                     Trending Products
@@ -53,7 +55,7 @@ function Marketplace() {
                 <div className='flex justify-between'>
                     <div className='text-3xl font-semibold'>Products</div>
                     <div className='flex'>
-                        <p className='bg-white flex items-center px-2'><Search /></p><input className='py-2 px-2 text-md outline-none' placeholder='search ' type="text" name="" id="" />
+                        <p className='flex items-center'><Searchbox/></p>
                     </div>
                 </div>
                 <div className='grid grid-cols-4 gap-x-6 gap-y-10 px-2 py-4'>
@@ -75,7 +77,12 @@ function Marketplace() {
                             />
                         );
                     })}
+
+
                 </div>
+                <div>
+                        <PaginationDemo/>
+                    </div>
             </div>
             <div className='bg-neutral-300 h-64 p-2'>banner</div>
             { isProductBuyCardOpen && (

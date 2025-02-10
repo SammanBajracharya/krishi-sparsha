@@ -10,6 +10,8 @@ import Marketplace from "./pages/Marketplace";
 import Footer from "./components/Footer";
 import Tos from "./pages/Tos";
 import Dashboard from "./pages/Dashboard";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
     return (
