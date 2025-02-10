@@ -86,7 +86,7 @@ const Register = () => {
             <CardWrapper
                 headerLabel="Create an account"
                 footerLabel="Already have an account!"
-                footerHref="/auth/login"
+                footerHref="/login"
             >
                 <Form {...form}>
                     <form
