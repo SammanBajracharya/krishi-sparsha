@@ -12,7 +12,7 @@ const Home = () => {
         <>
             <main className="py-8">
                 <section className='max-w-screen mx-auto px-8'>
-                    <div className='mx-auto mb-8 flex flex-col gap-4 justify-center items-center text-center max-w-2xl'>
+                    <div className='mx-auto mb-8 flex flex-col gap-8 justify-center items-center text-center max-w-2xl'>
                         <h1>krishi-स्पर्श seeks to find new way farmer can sustain their business</h1>
                         <p className="text-center max-w-xl">We are a go-to online marketplace designed exclusively for framers, artisans, and businesses in the framing industry.</p>
                         <Link to="/marketplace">
