@@ -37,11 +37,24 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email, password, username):
+    def create_superuser(
+        self,
+        email,
+        password,
+        username,
+        user_type="admin",
+        address="",
+        phone="",
+        city="",
+    ):
         user = self.create_user(
             email=email,
             username=username,
-            password=password
+            password=password,
+            user_type=user_type,
+            address=address,
+            phone=phone,
+            city=city,
         )
         user.is_staff = True
         user.is_superuser = True
@@ -132,7 +145,7 @@ class Product(models.Model):
 
 
 # Order Model
-class cart(models.Model):
+class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
