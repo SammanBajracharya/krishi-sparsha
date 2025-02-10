@@ -5,6 +5,7 @@ import img3 from '../assets/mdi_recycle.svg'
 import img4 from '../assets/solar_delivery-bold.svg'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import Accordioncard from '@/components/Accordioncard';
 
 const Home = () => {
     return (
@@ -67,6 +68,9 @@ const Home = () => {
                         />
                     </div>
                 </section>
+                <div className='accordion p-4 w-[90%] mx-auto'>
+                    <Accordioncard/>
+                </div>
                 <div className='mt-12'>
                     <h3 className="text-center font-bold text-2xl">Be part of the bright future</h3>
                 </div>

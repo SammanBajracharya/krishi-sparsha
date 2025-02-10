@@ -1,6 +1,6 @@
 import { BusinessInfo } from "@/components/BusinessInfo"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@radix-ui/react-dropdown-menu"
+import { Separator } from "@/components/ui/separator"
 
 function Dashboard() {
   return (
@@ -31,7 +31,11 @@ function Dashboard() {
         </div>
     </div>
     <Separator/>
-    <div></div>
+    <div className="flex flex-col gap-4">
+      <div>Your Analytics</div>
+      <div className="border-[1px] border-black">
+      </div>
+    </div>
     </div>
     </div>
   )
