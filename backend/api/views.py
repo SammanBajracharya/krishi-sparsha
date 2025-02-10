@@ -1,10 +1,16 @@
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from api.models import Product
-from api.serializers import SignUpSerializer, ProductAPISerializer
+from api.serializers import (
+    DiscountCardSerializer,
+    SignUpSerializer,
+    ProductAPISerializer,
+)
 
 User = get_user_model()
 
@@ -20,6 +26,30 @@ class SignUpAPIView(generics.CreateAPIView):
             raise ValidationError({"email": "Email already in use."})
 
         serializer.save()
+
+
+class UserProfileAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_data = {
+            "id": user.id,
+            "email": user.email,
+            "username": user.username,
+            "user_type": user.user_type,
+            "address": user.address,
+            "phone": user.phone,
+            "image": user.image.url if user.image else None,
+            "discount_cards": DiscountCardSerializer(
+                user.discount_cards,
+                many=True
+            ).data,
+        }
+        return Response(
+            user_data,
+            status=status.HTTP_200_OK
+        )
 
 
 # Product views

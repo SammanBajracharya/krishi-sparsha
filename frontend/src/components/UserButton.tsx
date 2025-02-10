@@ -1,3 +1,6 @@
+import * as z from "zod";
+import { useState, useEffect } from "react";
+
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -7,15 +10,19 @@ import {
     DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/AuthContext';
+import { UserSchema } from '@/schemas';
 
 export const UserButton = () => {
-    const { logout, userData } = useAuth();
+    const [userData, setUserData] = useState<z.infer<typeof UserSchema> | null>(null);
+    const { logout, fetchUserData } = useAuth();
 
-    console.log(userData);
+    useEffect(() => {
+        fetchUserData().then((data) => {
+            setUserData(data);
+        });
+    }, []);
 
-    if (!userData) {
-        return null;
-    }
+    if (!userData) { return null; }
 
     return (
         <div className="cursor-pointer flex justify-end">
