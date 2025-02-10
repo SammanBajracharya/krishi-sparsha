@@ -51,11 +51,13 @@ const Register = () => {
             return;
         }
 
-        const { username, email, password } = validatedFields.data;
+        console.log(validatedFields.data);
+
+        const { username, email, password, address, phone, user_type } = validatedFields.data;
 
         startTransition(async () => {
             try {
-                await api.post("/api/user/register/", { username, email, password });
+                await api.post("/api/user/register/", { username, email, password, address, phone, user_type });
                 setSuccess("Register successful!");
                 navigate("/login");
             } catch (error: any) {
@@ -196,18 +198,17 @@ const Register = () => {
                                         <FormLabel>User Type</FormLabel>
                                         <Select
                                             disabled={isPending}
+                                            value={field.value}
                                             onValueChange={field.onChange}
-                                            defaultValue={field.value}
                                         >
                                             <FormControl>
-                                                <SelectTrigger
-                                                >
-                                                    <SelectValue placeholder="Select User Type" className="placeholder:text-muted-foreground placeholder:text-base" />
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select User Type" className="capitalize placeholder:text-muted-foreground placeholder:text-base" />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
                                                 {USER_TYPE.map((type) => (
-                                                    <SelectItem className="text-sm" key={type} value={type}>
+                                                    <SelectItem className="text-sm capitalize " key={type} value={type}>
                                                         {type}
                                                     </SelectItem>
                                                 ))}

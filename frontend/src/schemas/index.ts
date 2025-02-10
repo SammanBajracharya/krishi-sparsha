@@ -37,6 +37,16 @@ export const RegisterSchema = z.object({
     image: z.string().optional(),
 });
 
+export const DiscountCardSchema = z.object({
+    id: UUIDSchema.default(uuidv4),
+    code: z.string().min(1, {
+        message: "Code is required."
+    }),
+    discount: z.number().min(1, {
+        message: "Discount is required."
+    }),
+});
+
 export const UserSchema = z.object({
     id: UUIDSchema.default(uuidv4),
     email: z.string().email({
@@ -54,13 +64,14 @@ export const UserSchema = z.object({
     }),
     image: z.string().optional(),
     rating: z.number().optional(),
+    discountCard: DiscountCardSchema.optional(),
 });
 
 export const CategorySchema = z.enum(["seeds", "fruits", "vegetables", "flowers", "dairy"]);
 
 export const ProductSchema = z.object({
     id: UUIDSchema.default(uuidv4),
-    title: z.string().min(1, {
+    name: z.string().min(1, {
         message: "Title is required."
     }),
     description: z.string().min(1, {
@@ -74,6 +85,11 @@ export const ProductSchema = z.object({
     }),
     salesNumber: z.number().default(0),
     category: CategorySchema,
+    quantity: z.number().min(1, {
+        message: "Quantity is required."
+    }),
+    product_owner: UUIDSchema,
+    discount_applied: z.boolean().default(false),
 });
 
 export const PaymentMethodSchema = z.enum(["cash on delivery", "esewa", "khalti"]);

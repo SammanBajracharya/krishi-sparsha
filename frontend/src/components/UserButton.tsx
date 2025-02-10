@@ -9,7 +9,11 @@ import {
 import { useAuth } from '@/context/AuthContext';
 
 export const UserButton = () => {
-    const { logout } = useAuth();
+    const { logout, userData } = useAuth();
+
+    if (!userData) {
+        return null;
+    }
 
     return (
         <div className="cursor-pointer flex justify-end">
@@ -21,6 +25,11 @@ export const UserButton = () => {
                     </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
+                    <DropdownMenuGroup>
+                        <a href={`/profile/${userData.id}`}>
+                            <DropdownMenuItem>{ userData.username }</DropdownMenuItem>
+                        </a>
+                    </DropdownMenuGroup>
                     <DropdownMenuGroup>
                         <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                     </DropdownMenuGroup>

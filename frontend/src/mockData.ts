@@ -14,15 +14,25 @@ export const mockData = [
     { price: 35, productName: "Potato" },
 ];
 
+const generatedProductNames = new Set<string>();
+
 const generateMockProduct = () => {
+    let productName;
+    do {
+        productName = faker.commerce.productName();
+    } while (generatedProductNames.has(productName));
+    generatedProductNames.add(productName);
+
     return ProductSchema.parse({
         id: uuidv4(),
-        title: faker.commerce.productName(),
+        name: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
         price: parseFloat(faker.commerce.price({ min: 2, max: 50 })),
         image: faker.image.url(),
         salesNumber: faker.number.int({ min: 0, max: 500 }),
         category: faker.helpers.arrayElement(CategorySchema.options),
+        quantity: faker.number.int({ min: 1, max: 1000 }),
+        product_owner: uuidv4(),
     });
 };
 
