@@ -42,7 +42,7 @@ const Login = () => {
     };
 
     return (
-        <div className="w-screen px-4 py-16 flex items-center justify-center">
+        <div className="w-screen px-4 py-16">
             <CardWrapper
                 headerLabel="Welcome back!"
                 footerLabel="Don't have an account!"

@@ -96,7 +96,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True
     )
-    is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]

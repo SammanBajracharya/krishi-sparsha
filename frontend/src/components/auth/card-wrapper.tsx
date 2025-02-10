@@ -20,7 +20,7 @@ export const CardWrapper: React.FC<CardWrapperProps> = ({
     footerHref,
 }) => {
     return (
-        <Card>
+        <Card className="max-w-96 mx-auto">
             <CardHeader>
                 <h3>
                     { headerLabel }

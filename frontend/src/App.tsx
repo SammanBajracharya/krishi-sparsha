@@ -30,7 +30,7 @@ function App() {
                         element={ <FindDealsPage /> }
                     />
                     <Route
-                        path="/profile"
+                        path="/profile/:userId"
                         element={ <ProfilePage /> }
                     />
                     <Route
@@ -50,7 +50,7 @@ function App() {
                         element={ <Tos /> }
                     />
                     <Route
-                        path="/dashboard"
+                        path="/dashboard/:userId"
                         element={ <Dashboard /> }
                     />
                 </Routes>

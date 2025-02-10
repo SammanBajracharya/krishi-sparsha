@@ -1,48 +1,54 @@
 import { Phone, MapPin } from "lucide-react";
 
 interface BusinessInfoProps {
+    id: string;
     businessName: string;
-    trustedPer: number | string;
+    rating?: number | string;
     info?: string;
     mobile: string | number;
     location: string | number;
     image: string;
-    isProfile?: boolean
+    isProfile?: boolean;
+    isLoggedIn?: boolean;
 };
 
 export const BusinessInfo = ({
+    id,
     businessName,
-    trustedPer,
+    rating,
     info,
     mobile,
     location,
     image,
-    isProfile
+    isProfile,
+    isLoggedIn,
 }: BusinessInfoProps) => {
     return (
         <div className="flex flex-col md:flex-row gap-x-8">
             <img
                 src={image}
-                className="h-32 w-32 rounded-md object-cover"
+                className="h-40 aspect-square rounded-md object-cover"
                 alt="profile_image"
             />
-            <div className="max-w-lg mt-2">
+            <div className="flex flex-col gap-y-4 max-w-lg mt-2">
                 <div className="flex flex-col gap-2 items-start lg:flex-row lg:items-center">
                     { isProfile ? (
                     <h2>{businessName}</h2>
                     ) : (
-                    <a href="#" className="hover:underline">
+                    <a href={`/profile/${id}`} className="hover:underline">
                         <h2>{businessName}</h2>
                     </a>
                     ) }
-                    <span className="text-gray-500">(Trusted by {trustedPer}% consumers)</span>
+                    { !!rating && (
+                        <span className="text-gray-500">(Trusted by {rating}% consumers)</span>
+                    )}
                 </div>
                 { info && (
-                    <p className="mt-2 text-sm">
+                    <p className="text-sm">
                         {info}
                     </p>
                 )}
-                <div className="mt-5 space-y-1">
+                <div className="space-y-1">
                     <div className="flex items-center gap-x-4">
                         <Phone />
                         <a>{mobile}</a>
@@ -52,6 +58,9 @@ export const BusinessInfo = ({
                         <a>{location}</a>
                     </div>
                 </div>
+                {isLoggedIn && (
+                    <a className="text-blue-700" href="/dashboard">Dashboard Page</a>
+                )}
             </div>
         </div>
     )

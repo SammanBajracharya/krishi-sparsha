@@ -9,12 +9,14 @@ function Dashboard() {
     <>
     <div className="p-6 shadow-lg flex flex-col gap-6 bg-white">
                 <BusinessInfo
-                    image="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg"
-                    businessName="Sato"
-                    mobile="+977 9343234343"
-                    location="sdfdsf"
-                    trustedPer={96}
+                    id={userId as string}
+                    image={userData.image as string}
+                    businessName={userData.username}
+                    mobile={userData.phone as string}
+                    location={userData.address as string}
+                    rating={userData.rating}
                     isProfile
+                    isLoggedIn={isLoggedIn}
                 />
     <div className="p-4 rounded-lg flex flex-col gap-8">
       <div className="flex flex-col gap-6">

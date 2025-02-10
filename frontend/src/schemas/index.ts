@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 
 export const UUIDSchema = z.string().uuid({ message: "Invalid UUID format." });
 
+export const UserTypeEnum = z.enum(["farmer", "consumer", "business"]);
+
 export const LoginSchema = z.object({
     email: z.string().email({
         message: "Email is required."
@@ -23,6 +25,35 @@ export const RegisterSchema = z.object({
     password: z.string().min(6, {
         message: "Minimum 6 characters required.",
     }),
+    user_type: z.enum(["consumer", "farmer", "business"], {
+        errorMap: () => ({ message: "User Type is required." }),
+    }),
+    address: z.string().min(1, {
+        message: "Address is required.",
+    }),
+    phone: z.string().min(1, {
+        message: "Phone is required.",
+    }),
+    image: z.string().optional(),
+});
+
+export const UserSchema = z.object({
+    id: UUIDSchema.default(uuidv4),
+    email: z.string().email({
+        message: "Email is required."
+    }),
+    username: z.string().min(1, {
+        message: "Username is required."
+    }),
+    user_type: UserTypeEnum,
+    address: z.string().min(1, {
+        message: "Address is required.",
+    }),
+    phone: z.string().min(1, {
+        message: "Phone is required.",
+    }),
+    image: z.string().optional(),
+    rating: z.number().optional(),
 });
 
 export const CategorySchema = z.enum(["seeds", "fruits", "vegetables", "flowers", "dairy"]);

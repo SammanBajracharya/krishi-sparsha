@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             localStorage.setItem("REFRESH_TOKEN", res.data.refresh);
             setIsLoggedIn(true);
             setSuccess("Login successful!");
-            navigate("/");
+            navigate("/marketplace");
             setError('');
             setSuccess('');
         } catch (error) {
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, login, logout, error, success, setError, resetMessages }}>
-            { children }
+            {children}
         </AuthContext.Provider>
     );
 };

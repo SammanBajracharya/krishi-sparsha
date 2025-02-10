@@ -23,6 +23,9 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useNavigate } from "react-router-dom";
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+
+import { USER_TYPE } from "@/constants";
 
 const Register = () => {
     const [error, setError] = useState<string | undefined>("");
@@ -35,6 +38,9 @@ const Register = () => {
             username: "",
             email: "",
             password: "",
+            address: "",
+            phone: "",
+            user_type: undefined,
         }
     });
 
@@ -54,11 +60,9 @@ const Register = () => {
                 navigate("/login");
             } catch (error: any) {
                 if (axios.isAxiosError(error)) {
-                    // Check if the response contains field-specific errors (e.g., email)
                     if (error.response) {
                         const errorMessages = error.response.data;
 
-                        // Loop through errors and extract field-specific messages
                         const formErrors: string[] = [];
                         if (errorMessages.email) {
                             formErrors.push(`${errorMessages.email.join(", ")}`);
@@ -82,7 +86,7 @@ const Register = () => {
     };
 
     return (
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="w-screen px-4 py-16">
             <CardWrapper
                 headerLabel="Create an account"
                 footerLabel="Already have an account!"
@@ -144,6 +148,71 @@ const Register = () => {
                                                 placeholder="******"
                                             />
                                         </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="address"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Address</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="address"
+                                                {...field}
+                                                disabled={isPending}
+                                                placeholder="1234 Main St"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Phone</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="phone"
+                                                {...field}
+                                                disabled={isPending}
+                                                placeholder="+1234567890"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="user_type"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>User Type</FormLabel>
+                                        <Select
+                                            disabled={isPending}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger
+                                                >
+                                                    <SelectValue placeholder="Select User Type" className="placeholder:text-muted-foreground placeholder:text-base" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {USER_TYPE.map((type) => (
+                                                    <SelectItem className="text-sm" key={type} value={type}>
+                                                        {type}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
                                         <FormMessage />
                                     </FormItem>
                                 )}
