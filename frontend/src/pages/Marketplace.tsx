@@ -6,7 +6,7 @@ import { ProductCard } from '@/components/ProductCard'
 import { mockProducts } from '@/mockData'
 import { ProductDetailCard } from '@/components/ProductDetailCard';
 import { ProductSchema } from '@/schemas/index';
-import { PaginationDemo } from "@/components/Paginationui";
+import  Paginationui  from "@/components/Paginationui";
 import Carousel from "@/components/Caraousel"
 
 function Marketplace() {
@@ -83,7 +83,7 @@ function Marketplace() {
 
                 </div>
                 <div>
-                    <PaginationDemo/>
+                    <Paginationui/>
                 </div>
             </div>
             <div className='bg-neutral-300 h-64 p-2'>banner</div>

@@ -10,9 +10,9 @@ function Accordioncard() {
   return (
     <Accordion type="single" collapsible className="flex justify-center flex-col">
     <AccordionItem value="item-1">
-      <AccordionTrigger>Is it accessible?</AccordionTrigger>
+      <AccordionTrigger>What is KrishiSparsha?</AccordionTrigger>
       <AccordionContent>
-        Yes. It adheres to the WAI-ARIA design pattern.
+      KrishiSparsha is a user-friendly platform designed to bridge the gap between farmers and consumers, enabling direct interaction and trade.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="item-2">
