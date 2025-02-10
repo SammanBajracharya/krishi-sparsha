@@ -68,7 +68,8 @@ const Home = () => {
                         />
                     </div>
                 </section>
-                <div className='accordion p-4 w-[90%] mx-auto'>
+                <div className='accordion p-4 w-[90%] mx-auto flex flex-col gap-4'>
+                    <h2 className='font-primary'>Frequently Asked Questions</h2>
                     <Accordioncard/>
                 </div>
                 <div className='mt-12'>
