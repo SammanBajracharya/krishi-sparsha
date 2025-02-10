@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from api.models import DiscountCard, Product, Category
+from api.models import DiscountCard, Product, Category, Todo
 
 User = get_user_model()
 
@@ -74,3 +74,10 @@ class DiscountCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = DiscountCard  # Assuming DiscountCard is a model
         fields = ['id', 'card_name', 'card_code']  # Include relevant fields
+
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ["id", "title", "created_at", "author"]
+        extra_kwargs = {"author": {"read_only": True}}

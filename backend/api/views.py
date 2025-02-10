@@ -5,11 +5,12 @@ from rest_framework.exceptions import ValidationError, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Product
+from api.models import Product, Todo
 from api.serializers import (
     DiscountCardSerializer,
     SignUpSerializer,
     ProductAPISerializer,
+    TodoSerializer,
 )
 
 User = get_user_model()
@@ -88,3 +89,23 @@ class CategoryRetrieveUpdateDestroyAPIView(
     queryset = Product.objects.all()
     serializer_class = ProductAPISerializer
     permission_classes = [IsAuthenticated]
+
+
+# Todo views
+class TodoListCreate(generics.ListCreateAPIView):
+    serializer_class = TodoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Todo.objects.filter(author=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
+class TodoDelete(generics.DestroyAPIView):
+    serializer_class = TodoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Todo.objects.filter(author=self.request.user)

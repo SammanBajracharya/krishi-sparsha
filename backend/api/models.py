@@ -1,3 +1,4 @@
+from backend import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -8,8 +9,20 @@ from uuid import uuid4
 
 
 # Create your models here.
-class UserManager(BaseUserManager):
+class Todo(models.Model):
+    title = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="todos"
+    )
 
+    def __str__(self):
+        return self.title
+
+
+class UserManager(BaseUserManager):
     def create_user(
         self,
         email,
@@ -18,6 +31,7 @@ class UserManager(BaseUserManager):
         user_type,
         address,
         phone,
+        description=None,
         discount_cards=None,
         image=None,
         **extra_fields
@@ -29,6 +43,7 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             user_type=user_type,
+            description=description,
             address=address,
             phone=phone,
             image=image,
@@ -44,7 +59,8 @@ class UserManager(BaseUserManager):
         email,
         password,
         username,
-        user_type="admin",
+        description="",
+        user_type="consumer",
         address="",
         phone="",
         image=None,
@@ -55,6 +71,7 @@ class UserManager(BaseUserManager):
             username=username,
             password=password,
             user_type=user_type,
+            description=description,
             address=address,
             phone=phone,
             image=image,
@@ -72,34 +89,42 @@ class DiscountCard(models.Model):
     discount = models.DecimalField(max_digits=5, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def str(self):
-        return self.card_name
+    def __str__(self):
+        return self.code
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    user_type_choices = [
+
+    # Choices for user types (farmer, consumer, business)
+    USER_TYPE_CHOICES = [
         ('farmer', 'Farmer'),
         ('consumer', 'Consumer'),
-        ('business', 'Business'),
     ]
+
     user_type = models.CharField(
         max_length=20,
-        choices=user_type_choices,
+        choices=USER_TYPE_CHOICES,
         default="consumer",
         blank=False
     )
+
     email = models.EmailField(unique=True)
     username = models.CharField(
-        max_length=144,
+        max_length=25,
         blank=False,
         default="default_username"
     )
     address = models.CharField(
-        max_length=300,
+        max_length=50,
         null=True,
         blank=False
+    )
+    description = models.CharField(
+        max_length=144,
+        null=True,
+        blank=True
     )
     phone = models.CharField(
         max_length=20,
@@ -119,10 +144,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username", "user_type", "address", "phone", "address"]
+    REQUIRED_FIELDS = ["username", "user_type", "address", "phone"]
+
     objects = UserManager()
 
-    def str(self):
+    def __str__(self):
         return self.username
 
     def is_farmer(self):
