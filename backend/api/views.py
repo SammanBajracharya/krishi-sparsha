@@ -5,12 +5,13 @@ from rest_framework.exceptions import ValidationError, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Product, Todo
+from api.models import Product, Todo, User
 from api.serializers import (
     DiscountCardSerializer,
     SignUpSerializer,
     ProductAPISerializer,
     TodoSerializer,
+    UserUpdateSerializer
 )
 
 User = get_user_model()
@@ -71,6 +72,9 @@ class ProductRetrieveUpdateDestroyAPIView(
     serializer_class = ProductAPISerializer
     permission_classes = [IsAuthenticated]
 
+    def perform_destroy(self, instance):
+        instance.delete()
+
 
 # Category views
 class CategoryListCreateAPIView(generics.ListCreateAPIView):
@@ -109,3 +113,35 @@ class TodoDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
         return Todo.objects.filter(author=self.request.user)
+
+
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = SignUpSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+class UserUpdateAPIView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # Get the current user from the request
+        return self.request.user
+
+
+class UserListCreateAPIView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = SignUpSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        email = serializer.validated_data["email"]
+        if User.objects.filter(email=email).exists():
+            raise ValidationError({"email": "Email already in use."})
+
+        serializer.save()

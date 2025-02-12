@@ -50,6 +50,40 @@ class SignUpSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "username",
+            "user_type",
+            "address",
+            "phone",
+            "discount_cards",
+            "password",  # Optional, if you want to allow password updates
+        ]
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "discount_cards": {"required": False},
+        }
+
+    def update(self, instance, validated_data):
+        # Update the user instance with the validated data
+        instance.email = validated_data.get('email', instance.email)
+        instance.username = validated_data.get('username', instance.username)
+        instance.user_type = validated_data.get('user_type', instance.user_type)
+        instance.address = validated_data.get('address', instance.address)
+        instance.phone = validated_data.get('phone', instance.phone)
+
+        # Update password if provided
+        password = validated_data.get('password', None)
+        if password:
+            instance.set_password(password)
+
+        instance.save()
+        return instance
+
+
 class ProductAPISerializer(serializers.ModelSerializer):
     class Meta:
         model = Product

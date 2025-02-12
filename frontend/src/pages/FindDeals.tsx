@@ -55,6 +55,7 @@ const FindDealsPage = () => {
                 <div className='grid grid-cols-1 gap-6'>
                     {currentProfiles.map((user, index) => (
                         <ProfileCard
+                            id={user.id}
                             key={index}
                             handleAddToCartButtonClick={handleAddToCartButtonClick}
                             handleViewDetailButtonClick={handleViewDetailButtonClick}

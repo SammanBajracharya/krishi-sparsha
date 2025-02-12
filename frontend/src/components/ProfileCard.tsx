@@ -44,13 +44,13 @@ export const ProfileCard = ({
                         }
                         return (
                             <ProductCard
+                                id={parsedProduct.data.id}
                                 key={index}
                                 price={parsedProduct.data.price}
                                 productName={parsedProduct.data.name}
                                 image={parsedProduct.data.image}
                                 buyNowHref=""
                                 viewDetailButtonOnClick={() => handleViewDetailButtonClick(parsedProduct.data)}
-                                addToCardButtonOnClick={() => handleAddToCartButtonClick(parsedProduct.data.id)}
                             />
                         );
                     })}

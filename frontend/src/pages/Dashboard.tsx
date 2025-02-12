@@ -7,12 +7,13 @@ import { useEffect, useState } from "react";
 
 import LoadingState from "@/components/loading-state";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { ChartSpline, ListTodo, LucideIcon, SquareChartGantt, UserPen } from "lucide-react";
+import { BadgePlus, ChartSpline, ListTodo, LucideIcon, UserPen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import EditProfile from "@/components/dashboard/EditProfile";
+import AddProduct from "@/components/dashboard/AddProduct";
 
-type DashboardState = "edit" | "review" | "analytics" | "todos";
+type DashboardState = "edit" | "add_product" | "analytics" | "todos";
 
 interface DashboardSidebarProps {
     state: DashboardState;
@@ -27,9 +28,9 @@ const DashboardSidebar: Array<DashboardSidebarProps> = [
         label: "Edit Profile"
     },
     {
-        state: "review",
-        Icon: SquareChartGantt,
-        label: "Review"
+        state: "add_product",
+        Icon: BadgePlus,
+        label: "Add Product"
     },
     {
         state: "todos",
@@ -71,8 +72,9 @@ function Dashboard() {
                 <CardHeader className="space-y-5 pt-10">
                     <h1>Welcome, <span className="underline text-4xl font-semibold text-primary">{userData.username}</span></h1>
                     <div className="flex flex-items gap-x-2">
-                        <Button variant="primary" size="lg">Sell Products</Button>
-                        <Button variant="outline" size="lg">Renew Old Sales</Button>
+                        <a href={`/profile/${userData.id}`}>
+                            <Button variant="primary" size="lg">View Profile</Button>
+                        </a>
                     </div>
                 </CardHeader>
                 <Separator />
@@ -99,13 +101,8 @@ function Dashboard() {
                                 switch (currentState) {
                                     case "edit":
                                         return ( <EditProfile user={userData} /> );
-                                    case "review":
-                                        return (
-                                            <div>
-                                                <h1>Your Reviews</h1>
-                                                <p>Here you can review your sales and purchases.</p>
-                                            </div>
-                                        );
+                                    case "add_product":
+                                        return ( <AddProduct userId={userData.id} /> );
                                     case "todos":
                                         return <Todo />;
                                     case "analytics":
