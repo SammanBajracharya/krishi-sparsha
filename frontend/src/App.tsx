@@ -22,7 +22,6 @@ import JWTProvider from '@/components/AuthMiddleware';
 
 function App() {
     return (
-<<<<<<< HEAD
         <BrowserRouter>
             <AuthProvider>
                 <Header />
@@ -79,37 +78,6 @@ function App() {
                 <Footer/>
             </AuthProvider>
         </BrowserRouter>
-=======
-        <CartProvider>
-            <BrowserRouter>
-                <AuthProvider>
-                    <JWTProvider>
-                        <Header />
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/find-deals" element={<FindDealsPage />} />
-                            <Route path="/profile/:userId" element={<ProfilePage />} />
-                            <Route path="/marketplace" element={<Marketplace />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/terms-of-service" element={<Tos />} />
-                            <Route
-                                path="/dashboard/:userId"
-                                element={
-                                    <ProtectedRoute>
-                                        <Dashboard />
-                                    </ProtectedRoute>
-                                }
-                            />
-                            <Route path="/checkout" element={<Checkout />} />
-                        </Routes>
-                        <Footer />
-                    </JWTProvider>
-                </AuthProvider>
-            </BrowserRouter>
-            <Toaster />
-        </CartProvider>
->>>>>>> a7032e36b317a7b73bbddf77dc5cb62dc0ee4bcd
     );
 }
 
